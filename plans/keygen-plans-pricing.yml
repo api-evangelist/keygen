@@ -1,0 +1,155 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Keygen
+providerId: keygen
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- Software Licensing
+- Entitlements
+- Distribution
+- Self-Hosted
+- Open Source
+- Plans
+description: >-
+  Keygen is offered two ways. Keygen Cloud is a managed, subscription SaaS
+  metered primarily by active licensed users (ALUs) - the number of unique
+  licenses that validate within a billing period - across Dev, Std, and Ent
+  tiers, with the Distribution API and higher support levels unlocking as you
+  move up. Keygen CE (Community Edition) is source-available and free to
+  self-host; Keygen EE (Enterprise Edition) is a paid, licensed self-hosted
+  build with singleplayer (flat-rate) and multiplayer models and a 30-day
+  trial. Exact ALU bands and monthly prices per tier are published on the
+  pricing page and are not reconciled to specific dollar figures in this
+  artifact.
+notes: >-
+  Tier names and inclusions are representative of Keygen Cloud's Dev / Std /
+  Ent structure at the time of authoring; verify current ALU limits, prices,
+  and feature gating on the pricing page during reconciliation.
+sources:
+- https://keygen.sh/pricing/
+- https://keygen.sh/docs/
+plans:
+- id: keygen-cloud-dev
+  name: Cloud - Dev
+  type: subscription
+  description: >-
+    Entry Keygen Cloud tier for development and small deployments. Includes the
+    core Software Licensing API (licenses, machines, policies, entitlements)
+    with a low active-licensed-user cap and a small number of releases. No
+    Distribution API access.
+  entries:
+  - label: Active Licensed Users (ALUs)
+    name: alus
+    type: quota
+    metric: active_licensed_users
+    limit: 100
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: see pricing page (free / low entry tier)
+    userMultiplied: true
+  elements:
+  - name: Software Licensing API
+  - name: Licenses
+  - name: Machines / Activation
+  - name: Policies
+  - name: Entitlements
+- id: keygen-cloud-std
+  name: Cloud - Std
+  type: subscription
+  description: >-
+    Production Keygen Cloud tiers (Std 1-5) that scale with ALU volume and add
+    the Distribution API (releases and artifacts) across multiple engines
+    (Binary, OCI/Docker, npm, RubyGems, PyPI, Tauri), plus standard business
+    support.
+  entries:
+  - label: Active Licensed Users (ALUs)
+    name: alus
+    type: quota
+    metric: active_licensed_users
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: tiered by ALU band - see pricing page
+    userMultiplied: true
+  elements:
+  - name: Software Licensing API
+  - name: Distribution API (Releases / Artifacts)
+  - name: Webhooks
+  - name: 8x5 Email Support
+- id: keygen-cloud-ent
+  name: Cloud - Ent
+  type: enterprise
+  description: >-
+    Enterprise Keygen Cloud tiers (Ent 1-3) with the highest ALU bands, a
+    99.99% uptime SLA, SAML/SSO, audit logs, custom environments and rate
+    limits, and priority support.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: All Std Features
+  - name: 99.99% Uptime SLA
+  - name: SAML / SSO
+  - name: Audit Logs
+  - name: Custom Environments and Rate Limits
+  - name: Priority Support
+- id: keygen-ce
+  name: Keygen CE (Self-Hosted)
+  type: open-source
+  description: >-
+    Community Edition - the source-available, free-to-self-host build of
+    Keygen. Run the full licensing and distribution API on your own
+    infrastructure with no per-ALU fees.
+  entries:
+  - label: Community Edition
+    name: ce
+    type: flat
+    metric: license
+    limit: -1
+    timeFrame: perpetual
+    geo: global
+    unit: 1
+    price: free (self-hosted)
+    userMultiplied: false
+  elements:
+  - name: Self-Hosted Licensing API
+  - name: Self-Hosted Distribution API
+  - name: Community Support
+- id: keygen-ee
+  name: Keygen EE (Self-Hosted)
+  type: enterprise
+  description: >-
+    Enterprise Edition - a paid, licensed self-hosted build offering
+    flat-rate singleplayer or multiplayer licensing models, additional
+    enterprise capabilities, and a 30-day trial.
+  entries:
+  - label: Enterprise Edition
+    name: ee
+    type: flat
+    metric: license
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: flat-rate - contact sales (30-day trial)
+    userMultiplied: false
+  elements:
+  - name: Self-Hosted Licensing and Distribution
+  - name: Singleplayer / Multiplayer Models
+  - name: Enterprise Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

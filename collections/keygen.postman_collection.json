@@ -1,0 +1,786 @@
+{
+  "info": {
+    "name": "Keygen API",
+    "description": "Keygen software licensing, entitlements, and distribution API. JSON:API over application/vnd.api+json, scoped to /v1/accounts/{{account}}. Authenticate with a Bearer token (admin/environment/product/user/license) or a license key.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.keygen.sh"
+    },
+    {
+      "key": "account",
+      "value": "your-account-id"
+    },
+    {
+      "key": "bearerToken",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Tokens",
+      "item": [
+        {
+          "name": "Generate a token",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/tokens",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "tokens"]
+            },
+            "description": "Generate a bearer token via HTTP Basic (user token) or a license key (license token)."
+          }
+        },
+        {
+          "name": "List all tokens",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/tokens",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "tokens"]
+            }
+          }
+        },
+        {
+          "name": "Retrieve a token",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/tokens/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "tokens", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Regenerate a token",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/tokens/:id/actions/regenerate",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "tokens", ":id", "actions", "regenerate"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Revoke a token",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/tokens/:id/actions/revoke",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "tokens", ":id", "actions", "revoke"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Licenses",
+      "item": [
+        {
+          "name": "Create a license",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"type\": \"licenses\",\n    \"relationships\": {\n      \"policy\": { \"data\": { \"type\": \"policies\", \"id\": \"{{policyId}}\" } }\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/licenses",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "licenses"]
+            }
+          }
+        },
+        {
+          "name": "List all licenses",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/licenses",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "licenses"]
+            }
+          }
+        },
+        {
+          "name": "Retrieve a license",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/licenses/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "licenses", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Update a license",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": { \"type\": \"licenses\", \"attributes\": {} }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/licenses/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "licenses", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Delete a license",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/licenses/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "licenses", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Validate a license (by ID)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/licenses/:id/actions/validate",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "licenses", ":id", "actions", "validate"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Validate a license (by key)",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"meta\": { \"key\": \"{{licenseKey}}\" }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/licenses/actions/validate-key",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "licenses", "actions", "validate-key"]
+            },
+            "description": "Validate a license using its key with no prior authentication."
+          }
+        },
+        {
+          "name": "Check-out a license",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/licenses/:id/actions/check-out",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "licenses", ":id", "actions", "check-out"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Check-in a license",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/licenses/:id/actions/check-in",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "licenses", ":id", "actions", "check-in"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Machines",
+      "item": [
+        {
+          "name": "Activate a machine",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"type\": \"machines\",\n    \"attributes\": { \"fingerprint\": \"{{fingerprint}}\" },\n    \"relationships\": {\n      \"license\": { \"data\": { \"type\": \"licenses\", \"id\": \"{{licenseId}}\" } }\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/machines",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "machines"]
+            }
+          }
+        },
+        {
+          "name": "List all machines",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/machines",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "machines"]
+            }
+          }
+        },
+        {
+          "name": "Retrieve a machine",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/machines/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "machines", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Update a machine",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/machines/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "machines", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Deactivate a machine",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/machines/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "machines", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Ping a machine (heartbeat)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/machines/:id/actions/ping",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "machines", ":id", "actions", "ping"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Components",
+      "item": [
+        {
+          "name": "Create a component",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/components",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "components"]
+            }
+          }
+        },
+        {
+          "name": "List all components",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/components",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "components"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Processes",
+      "item": [
+        {
+          "name": "Spawn a process",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/processes",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "processes"]
+            }
+          }
+        },
+        {
+          "name": "List all processes",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/processes",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "processes"]
+            }
+          }
+        },
+        {
+          "name": "Ping a process (heartbeat)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/processes/:id/actions/ping",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "processes", ":id", "actions", "ping"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Policies",
+      "item": [
+        {
+          "name": "Create a policy",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/policies",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "policies"]
+            }
+          }
+        },
+        {
+          "name": "List all policies",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/policies",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "policies"]
+            }
+          }
+        },
+        {
+          "name": "Retrieve a policy",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/policies/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "policies", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Update a policy",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/policies/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "policies", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Delete a policy",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/policies/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "policies", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "List all products",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "products"]
+            }
+          }
+        },
+        {
+          "name": "Retrieve a product",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/products/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "products", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Create a user",
+          "request": {
+            "auth": { "type": "noauth" },
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "users"]
+            }
+          }
+        },
+        {
+          "name": "List all users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/users",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "users"]
+            }
+          }
+        },
+        {
+          "name": "Retrieve a user",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/users/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "users", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Entitlements",
+      "item": [
+        {
+          "name": "Create an entitlement",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/entitlements",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "entitlements"]
+            }
+          }
+        },
+        {
+          "name": "List all entitlements",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/entitlements",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "entitlements"]
+            }
+          }
+        },
+        {
+          "name": "Retrieve an entitlement",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/entitlements/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "entitlements", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Releases",
+      "item": [
+        {
+          "name": "Create a release",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/releases",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "releases"]
+            }
+          }
+        },
+        {
+          "name": "List all releases",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/releases",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "releases"]
+            }
+          }
+        },
+        {
+          "name": "Retrieve a release",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/releases/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "releases", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Upgrade a release",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/releases/:id/actions/upgrade",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "releases", ":id", "actions", "upgrade"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Artifacts",
+      "item": [
+        {
+          "name": "Upload an artifact",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/artifacts",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "artifacts"]
+            }
+          }
+        },
+        {
+          "name": "List all artifacts",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/artifacts",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "artifacts"]
+            }
+          }
+        },
+        {
+          "name": "Download an artifact",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/artifacts/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "artifacts", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        },
+        {
+          "name": "Yank an artifact",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/artifacts/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "artifacts", ":id"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Create a webhook endpoint",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/vnd.api+json" },
+              { "key": "Accept", "value": "application/vnd.api+json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/webhook-endpoints",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "webhook-endpoints"]
+            }
+          }
+        },
+        {
+          "name": "List all webhook endpoints",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/webhook-endpoints",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "webhook-endpoints"]
+            }
+          }
+        },
+        {
+          "name": "List all webhook events",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/webhook-events",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "webhook-events"]
+            }
+          }
+        },
+        {
+          "name": "Retry a webhook event",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Accept", "value": "application/vnd.api+json" }],
+            "url": {
+              "raw": "{{baseUrl}}/v1/accounts/{{account}}/webhook-events/:id/actions/retry",
+              "host": ["{{baseUrl}}"],
+              "path": ["v1", "accounts", "{{account}}", "webhook-events", ":id", "actions", "retry"],
+              "variable": [{ "key": "id", "value": "" }]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

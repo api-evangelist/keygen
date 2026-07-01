@@ -1,0 +1,82 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Keygen
+providerId: keygen
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- Software Licensing
+- Distribution
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  Keygen enforces sliding-window rate limits that differ by whether requests
+  originate client-side (unauthenticated, license, or user tokens) or
+  server-side (admin, environment, or product tokens). Client-side traffic is
+  the more constrained tier - roughly a 60-request burst per 30 seconds with
+  a sustained ceiling around 500 requests per 5 minutes - while server-side
+  tokens receive substantially higher, undocumented ceilings suited to
+  back-end automation. Limits and the current window are surfaced on every
+  response via X-RateLimit-* headers, and throttled requests return 429 with a
+  Retry-After header.
+notes: >-
+  Keygen Cloud Enterprise plans can negotiate custom rate limits.
+  Self-hosted Keygen CE/EE limits depend on the operator's configuration.
+  Verify exact per-tier values in the rate-limiting documentation during
+  reconciliation.
+sources:
+- https://keygen.sh/docs/api/rate-limiting/
+- https://keygen.sh/pricing/
+responseCodes:
+  throttled: 429
+headers:
+- name: X-RateLimit-Window
+  description: Identifier of the rate-limit window closest to being exhausted.
+- name: X-RateLimit-Count
+  description: Number of requests made in the current window.
+- name: X-RateLimit-Limit
+  description: Maximum requests allowed within the current window.
+- name: X-RateLimit-Remaining
+  description: Requests remaining in the current window.
+- name: X-RateLimit-Reset
+  description: UTC epoch time at which the current window resets.
+- name: Retry-After
+  description: Seconds to wait before retrying (returned on 429 responses only).
+limits:
+- name: Client-Side Burst
+  scope: ip-or-token
+  metric: requests
+  limit: 60
+  window: 30s
+  notes: Applies to unauthenticated, license, and user (client-side) tokens.
+- name: Client-Side Sustained
+  scope: ip-or-token
+  metric: requests
+  limit: 500
+  window: 5m
+  notes: Sustained ceiling (~1 req/sec) for client-side tokens; short bursts allowed.
+- name: Server-Side
+  scope: token
+  metric: requests
+  limit: see provider documentation
+  window: sliding
+  notes: Admin, environment, and product tokens receive higher, undocumented limits.
+- name: Enterprise Custom
+  scope: account
+  metric: requests
+  limit: negotiated
+  window: custom
+  notes: Custom rate limits available on Keygen Cloud Enterprise plans.
+policies:
+- name: Backoff Strategy
+  description: Honor the Retry-After header and use exponential backoff with jitter on 429.
+- name: Header Monitoring
+  description: Read X-RateLimit-Remaining / X-RateLimit-Reset to throttle proactively before hitting 429.
+- name: Caching
+  description: Cache validation and metadata responses and use offline license check-out to reduce request volume.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

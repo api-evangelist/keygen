@@ -1,0 +1,864 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Keygen API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    },
+    "header": [
+      {
+        "key": "Content-Type",
+        "value": "application/vnd.api+json"
+      },
+      {
+        "key": "Accept",
+        "value": "application/vnd.api+json"
+      }
+    ]
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate a token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/tokens"
+          },
+          "docs": "Generate a bearer token using HTTP Basic (user token) or a license key (license token)."
+        },
+        {
+          "info": {
+            "name": "List all tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/tokens"
+          },
+          "docs": "List all tokens for the account."
+        },
+        {
+          "info": {
+            "name": "Retrieve a token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/tokens/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the token."
+              }
+            ]
+          },
+          "docs": "Retrieve a token by ID."
+        },
+        {
+          "info": {
+            "name": "Regenerate a token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/tokens/:id/actions/regenerate",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Regenerate a token, invalidating the previous value."
+        },
+        {
+          "info": {
+            "name": "Revoke a token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/tokens/:id/actions/revoke",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Revoke a token."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Licenses",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a license",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/licenses",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"data\": {\n    \"type\": \"licenses\",\n    \"relationships\": {\n      \"policy\": { \"data\": { \"type\": \"policies\", \"id\": \"{{policyId}}\" } }\n    }\n  }\n}"
+            }
+          },
+          "docs": "Create a license from a policy."
+        },
+        {
+          "info": {
+            "name": "List all licenses",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/licenses"
+          },
+          "docs": "List all licenses for the account."
+        },
+        {
+          "info": {
+            "name": "Retrieve a license",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/licenses/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a license by ID."
+        },
+        {
+          "info": {
+            "name": "Update a license",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/licenses/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{\n  \"data\": { \"type\": \"licenses\", \"attributes\": {} }\n}"
+            }
+          },
+          "docs": "Update a license."
+        },
+        {
+          "info": {
+            "name": "Delete a license",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/licenses/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a license."
+        },
+        {
+          "info": {
+            "name": "Validate a license (by ID)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/licenses/:id/actions/validate",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Validate a license by ID, optionally scoped to a fingerprint or entitlements."
+        },
+        {
+          "info": {
+            "name": "Validate a license (by key)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/licenses/actions/validate-key",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"meta\": { \"key\": \"{{licenseKey}}\" }\n}"
+            }
+          },
+          "docs": "Validate a license using its key, without prior authentication."
+        },
+        {
+          "info": {
+            "name": "Check-out a license",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/licenses/:id/actions/check-out",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Check out a signed license file for offline validation."
+        },
+        {
+          "info": {
+            "name": "Check-in a license",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/licenses/:id/actions/check-in",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Perform a required license check-in."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Machines",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Activate a machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/machines",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"data\": {\n    \"type\": \"machines\",\n    \"attributes\": { \"fingerprint\": \"{{fingerprint}}\" },\n    \"relationships\": {\n      \"license\": { \"data\": { \"type\": \"licenses\", \"id\": \"{{licenseId}}\" } }\n    }\n  }\n}"
+            }
+          },
+          "docs": "Activate a machine for a license by fingerprint."
+        },
+        {
+          "info": {
+            "name": "List all machines",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/machines"
+          },
+          "docs": "List all machines."
+        },
+        {
+          "info": {
+            "name": "Retrieve a machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/machines/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a machine by ID."
+        },
+        {
+          "info": {
+            "name": "Update a machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/machines/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update a machine."
+        },
+        {
+          "info": {
+            "name": "Deactivate a machine",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/machines/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deactivate (delete) a machine."
+        },
+        {
+          "info": {
+            "name": "Ping a machine (heartbeat)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/machines/:id/actions/ping",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Send a heartbeat ping to keep the machine's activation alive."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Components",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a component",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/components"
+          },
+          "docs": "Create a machine component."
+        },
+        {
+          "info": {
+            "name": "List all components",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/components"
+          },
+          "docs": "List all machine components."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Processes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Spawn a process",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/processes"
+          },
+          "docs": "Spawn a concurrent process on an activated machine."
+        },
+        {
+          "info": {
+            "name": "List all processes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/processes"
+          },
+          "docs": "List all processes."
+        },
+        {
+          "info": {
+            "name": "Ping a process (heartbeat)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/processes/:id/actions/ping",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Send a heartbeat ping for a process."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Policies",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/policies"
+          },
+          "docs": "Create a policy."
+        },
+        {
+          "info": {
+            "name": "List all policies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/policies"
+          },
+          "docs": "List all policies."
+        },
+        {
+          "info": {
+            "name": "Retrieve a policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/policies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a policy by ID."
+        },
+        {
+          "info": {
+            "name": "Update a policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/policies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Update a policy."
+        },
+        {
+          "info": {
+            "name": "Delete a policy",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/policies/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a policy."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/products"
+          },
+          "docs": "List all products."
+        },
+        {
+          "info": {
+            "name": "Retrieve a product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a product by ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/users"
+          },
+          "docs": "Create an end user / license owner."
+        },
+        {
+          "info": {
+            "name": "List all users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/users"
+          },
+          "docs": "List all users."
+        },
+        {
+          "info": {
+            "name": "Retrieve a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/users/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a user by ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Entitlements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create an entitlement",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/entitlements"
+          },
+          "docs": "Create a named entitlement (feature flag)."
+        },
+        {
+          "info": {
+            "name": "List all entitlements",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/entitlements"
+          },
+          "docs": "List all entitlements."
+        },
+        {
+          "info": {
+            "name": "Retrieve an entitlement",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/entitlements/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve an entitlement by ID."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Releases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a release",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/releases"
+          },
+          "docs": "Create a semver-tagged release."
+        },
+        {
+          "info": {
+            "name": "List all releases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/releases"
+          },
+          "docs": "List all releases."
+        },
+        {
+          "info": {
+            "name": "Retrieve a release",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/releases/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve a release by ID."
+        },
+        {
+          "info": {
+            "name": "Upgrade a release",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/releases/:id/actions/upgrade",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Resolve the next available upgrade for auto-update."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Artifacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload an artifact",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/artifacts"
+          },
+          "docs": "Create an artifact for a release; response includes a pre-signed upload URL."
+        },
+        {
+          "info": {
+            "name": "List all artifacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/artifacts"
+          },
+          "docs": "List all artifacts."
+        },
+        {
+          "info": {
+            "name": "Download an artifact",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/artifacts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieve an artifact; redirects to a pre-signed download URL when entitled."
+        },
+        {
+          "info": {
+            "name": "Yank an artifact",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/artifacts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Yank (delete) an artifact."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a webhook endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/webhook-endpoints"
+          },
+          "docs": "Register a webhook endpoint."
+        },
+        {
+          "info": {
+            "name": "List all webhook endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/webhook-endpoints"
+          },
+          "docs": "List all webhook endpoints."
+        },
+        {
+          "info": {
+            "name": "List all webhook events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/webhook-events"
+          },
+          "docs": "List recorded webhook events."
+        },
+        {
+          "info": {
+            "name": "Retry a webhook event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/accounts/{{account}}/webhook-events/:id/actions/retry",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retry delivery of a webhook event."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

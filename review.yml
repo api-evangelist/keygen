@@ -1,0 +1,78 @@
+aid: keygen
+name: Keygen
+review:
+  question: Does Keygen expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-01'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Keygen's event surface is delivered as
+    outbound HTTP webhooks (POST to a subscriber URL), not as a client-facing
+    streaming transport. There is no documented WebSocket or Server-Sent
+    Events endpoint to model.
+findings:
+  summary: |
+    Keygen does not publish a documented public WebSocket API. The Keygen
+    platform is a JSON:API (application/vnd.api+json) REST API served under
+    https://api.keygen.sh/v1/accounts/{account} for both Keygen Cloud and the
+    default self-hosted CE/EE deployment. Asynchronous notifications are
+    delivered via signed outbound webhooks (webhook-endpoints + webhook-events)
+    rather than a bidirectional socket. Machine and process liveness use
+    request/response heartbeat pings (POST .../actions/ping) on an interval,
+    not a persistent connection. No ws:// or wss:// endpoint is documented.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.keygen.sh/v1/accounts/{account}
+      mediaType: application/vnd.api+json
+      documented: true
+    - protocol: Webhooks
+      scheme: https
+      note: Outbound signed HTTP webhook deliveries to subscriber endpoints; not a client-consumed stream.
+      documented: true
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in the Keygen API reference as of the review date.
+  endpointsConfirmedRest:
+    - POST   https://api.keygen.sh/v1/accounts/{account}/tokens
+    - POST   https://api.keygen.sh/v1/accounts/{account}/licenses
+    - POST   https://api.keygen.sh/v1/accounts/{account}/licenses/{id}/actions/validate
+    - POST   https://api.keygen.sh/v1/accounts/{account}/licenses/actions/validate-key
+    - POST   https://api.keygen.sh/v1/accounts/{account}/licenses/{id}/actions/check-out
+    - POST   https://api.keygen.sh/v1/accounts/{account}/machines
+    - POST   https://api.keygen.sh/v1/accounts/{account}/machines/{id}/actions/ping
+    - POST   https://api.keygen.sh/v1/accounts/{account}/processes
+    - GET    https://api.keygen.sh/v1/accounts/{account}/policies
+    - GET    https://api.keygen.sh/v1/accounts/{account}/products
+    - GET    https://api.keygen.sh/v1/accounts/{account}/users
+    - GET    https://api.keygen.sh/v1/accounts/{account}/entitlements
+    - POST   https://api.keygen.sh/v1/accounts/{account}/releases
+    - GET    https://api.keygen.sh/v1/accounts/{account}/releases/{id}/actions/upgrade
+    - POST   https://api.keygen.sh/v1/accounts/{account}/artifacts
+    - GET    https://api.keygen.sh/v1/accounts/{account}/artifacts/{id}
+    - POST   https://api.keygen.sh/v1/accounts/{account}/webhook-endpoints
+    - POST   https://api.keygen.sh/v1/accounts/{account}/webhook-events/{id}/actions/retry
+sources:
+  - url: https://keygen.sh/docs/api/
+    type: Documentation
+    note: API overview lists the JSON:API REST base URL; no WebSocket mentioned.
+  - url: https://keygen.sh/docs/api/webhooks/
+    type: Documentation
+    note: Events are delivered as outbound HTTP webhooks, not a client stream.
+  - url: https://keygen.sh/docs/api/machines/
+    type: Documentation
+    note: Machine liveness uses interval heartbeat pings over REST, not a socket.
+  - url: https://keygen.sh/docs/api/rate-limiting/
+    type: Documentation
+    note: Rate limiting is described for HTTP requests; no socket transport referenced.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists, and Keygen's asynchronous surface is
+    outbound HTTP webhooks rather than an SSE or WebSocket stream a client
+    subscribes to, so no AsyncAPI document was authored. The webhook surface is
+    represented in apis.yml as the Keygen Webhooks API with REST endpoints for
+    managing endpoints and events.

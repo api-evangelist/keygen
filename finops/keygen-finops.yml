@@ -1,0 +1,103 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Keygen
+providerId: keygen
+created: '2026-07-01'
+modified: '2026-07-01'
+reconciled: false
+tags:
+- Software Licensing
+- Entitlements
+- Distribution
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Keygen spend. Keygen Cloud is a subscription service billed
+  primarily on active licensed users (ALUs) - unique licenses that validate in
+  a billing period - with tier-based feature gating (Software Licensing API on
+  every tier, Distribution API on Std and above) and enterprise add-ons (SLA,
+  SSO, audit logs). Self-hosted Keygen CE carries no license fee (infra cost
+  only); Keygen EE is a flat-rate self-hosted license. The dominant cost driver
+  on Cloud is ALU growth, so cost control centers on how licenses are modeled
+  and which tier that ALU volume lands in.
+notes: >-
+  Keygen bills per active licensed user per period, not per API request; API
+  usage is governed by rate limits rather than metered charges. Verify tier
+  boundaries and ALU definitions against the pricing page during reconciliation.
+sources:
+- https://keygen.sh/pricing/
+- https://keygen.sh/docs/
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Keygen
+serviceCategory: Developer Tools
+billingModel:
+  pricingCategory: Subscription
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+focusColumns:
+  ServiceName: Keygen Cloud
+  ServiceCategory: Developer Tools
+  ProviderName: Keygen
+  PublisherName: Keygen
+  InvoiceIssuerName: Keygen
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Subscription
+meters:
+- name: active_licensed_users
+  description: Unique licenses that validate within the billing period; the primary Cloud pricing metric.
+  unit: users
+  aggregation: max
+  dimensions:
+  - account
+  - product
+  - policy
+- name: subscription_tier
+  description: The Cloud tier (Dev / Std / Ent) that ALU volume and feature needs place the account in.
+  unit: tier
+  aggregation: latest
+  dimensions:
+  - account
+- name: releases_published
+  description: Product releases published for distribution; capped on lower tiers.
+  unit: releases
+  aggregation: sum
+  dimensions:
+  - account
+  - product
+- name: distribution_egress
+  description: Artifact download/distribution bandwidth (informational; relevant to self-hosted infra cost).
+  unit: bytes
+  aggregation: sum
+  dimensions:
+  - account
+  - release
+- name: self_hosted_license
+  description: Flat-rate Keygen EE license, or zero-cost CE, for self-hosted deployments.
+  unit: license
+  aggregation: latest
+  dimensions:
+  - deployment
+principles:
+- name: Visibility
+  description: Track active licensed users over time and map them to the Cloud tier band you are billed in.
+- name: Allocation
+  description: Tag licenses and policies per product/customer segment to attribute ALU-driven spend to cost centers.
+- name: Optimization
+  description: Prune stale/expired licenses that still count as ALUs, right-size the tier, and evaluate self-hosted CE/EE when ALU volume makes flat-rate cheaper than per-ALU Cloud.
+- name: Accountability
+  description: Assign owners per product line; review ALU trend and tier fit monthly against budget and growth.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

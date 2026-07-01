@@ -1,0 +1,1782 @@
+openapi: 3.0.3
+info:
+  title: Keygen API
+  description: >-
+    Representative OpenAPI description of the Keygen software licensing,
+    entitlements, and distribution API. Keygen follows the JSON:API
+    specification (https://jsonapi.org): request and response bodies use the
+    media type `application/vnd.api+json` and wrap resources in a top-level
+    `data` object with `type`, `id`, `attributes`, and `relationships`.
+    All endpoints are scoped to an account under
+    `/v1/accounts/{account}`, where `{account}` is the account's UUID or slug.
+    Authentication is a Bearer token (admin, environment, product, user, or
+    license token) or, for license validation, a license key. This document is
+    a faithful subset intended for discovery; consult keygen.sh/docs/api for
+    the full, authoritative reference.
+  termsOfService: https://keygen.sh/terms/
+  contact:
+    name: Keygen Support
+    url: https://keygen.sh/contact/
+    email: support@keygen.sh
+  license:
+    name: Documentation - CC BY 4.0
+    url: https://keygen.sh/docs/api/
+  version: '1.0'
+servers:
+  - url: https://api.keygen.sh/v1/accounts/{account}
+    description: Keygen Cloud (and default self-hosted CE/EE base path)
+    variables:
+      account:
+        default: your-account-id
+        description: Account UUID or slug.
+tags:
+  - name: Tokens
+    description: Authenticate and manage bearer tokens.
+  - name: Licenses
+    description: Issue, validate, and manage license keys.
+  - name: Machines
+    description: Activate and manage node-locked machines.
+  - name: Components
+    description: Hardware components of a machine fingerprint.
+  - name: Processes
+    description: Concurrent processes running on a machine.
+  - name: Policies
+    description: Licensing rules that govern licenses.
+  - name: Products
+    description: Applications being licensed and distributed.
+  - name: Users
+    description: End users and license owners.
+  - name: Entitlements
+    description: Named feature flags attached to policies and licenses.
+  - name: Releases
+    description: Distributable, semver-tagged releases.
+  - name: Artifacts
+    description: Binary artifacts attached to releases.
+  - name: Webhooks
+    description: Webhook endpoints and events.
+paths:
+  /tokens:
+    post:
+      operationId: generateToken
+      tags: [Tokens]
+      summary: Generate a token
+      description: >-
+        Generate a new bearer token by authenticating with HTTP Basic (email
+        and password) for a user token, or with a license key for a license
+        token.
+      security:
+        - basicAuth: []
+      responses:
+        '201':
+          description: Token created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TokenDocument'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      operationId: listTokens
+      tags: [Tokens]
+      summary: List all tokens
+      parameters:
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PageNumber'
+      responses:
+        '200':
+          description: A list of tokens.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TokenCollectionDocument'
+  /tokens/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveToken
+      tags: [Tokens]
+      summary: Retrieve a token
+      responses:
+        '200':
+          description: A token.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TokenDocument'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /tokens/{id}/actions/regenerate:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    put:
+      operationId: regenerateToken
+      tags: [Tokens]
+      summary: Regenerate a token
+      responses:
+        '200':
+          description: The regenerated token.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TokenDocument'
+  /tokens/{id}/actions/revoke:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    delete:
+      operationId: revokeToken
+      tags: [Tokens]
+      summary: Revoke a token
+      responses:
+        '204':
+          description: Token revoked.
+  /licenses:
+    post:
+      operationId: createLicense
+      tags: [Licenses]
+      summary: Create a license
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/LicenseDocument'
+      responses:
+        '201':
+          description: License created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/LicenseDocument'
+    get:
+      operationId: listLicenses
+      tags: [Licenses]
+      summary: List all licenses
+      parameters:
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PageNumber'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [ACTIVE, INACTIVE, EXPIRING, EXPIRED, SUSPENDED, BANNED]
+          description: Filter by license status.
+      responses:
+        '200':
+          description: A list of licenses.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/LicenseCollectionDocument'
+  /licenses/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveLicense
+      tags: [Licenses]
+      summary: Retrieve a license
+      responses:
+        '200':
+          description: A license.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/LicenseDocument'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateLicense
+      tags: [Licenses]
+      summary: Update a license
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/LicenseDocument'
+      responses:
+        '200':
+          description: License updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/LicenseDocument'
+    delete:
+      operationId: deleteLicense
+      tags: [Licenses]
+      summary: Delete a license
+      responses:
+        '204':
+          description: License deleted.
+  /licenses/{id}/actions/validate:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    post:
+      operationId: validateLicenseById
+      tags: [Licenses]
+      summary: Validate a license (by ID)
+      description: >-
+        Validate a license by ID, optionally scoped to a machine fingerprint,
+        product, or entitlements. Returns a `meta` object with `valid`,
+        `detail`, and `code`.
+      requestBody:
+        required: false
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ValidationScopeDocument'
+      responses:
+        '200':
+          description: A validation result.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ValidationResultDocument'
+  /licenses/actions/validate-key:
+    post:
+      operationId: validateLicenseByKey
+      tags: [Licenses]
+      summary: Validate a license (by key)
+      description: >-
+        Validate a license using its key without prior authentication - the
+        primary offline/online validation entry point for clients.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ValidateKeyDocument'
+      responses:
+        '200':
+          description: A validation result.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ValidationResultDocument'
+  /licenses/{id}/actions/check-out:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    post:
+      operationId: checkoutLicense
+      tags: [Licenses]
+      summary: Check-out a license
+      description: >-
+        Check out a signed, encrypted license file for offline validation.
+      responses:
+        '200':
+          description: A license file.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/LicenseFileDocument'
+  /licenses/{id}/actions/check-in:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    post:
+      operationId: checkinLicense
+      tags: [Licenses]
+      summary: Check-in a license
+      description: Perform a required license check-in to reset the check-in window.
+      responses:
+        '200':
+          description: The checked-in license.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/LicenseDocument'
+  /machines:
+    post:
+      operationId: activateMachine
+      tags: [Machines]
+      summary: Activate a machine
+      description: >-
+        Activate a machine for a license by hardware fingerprint. Fails if the
+        license has reached its policy machine limit.
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/MachineDocument'
+      responses:
+        '201':
+          description: Machine activated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MachineDocument'
+    get:
+      operationId: listMachines
+      tags: [Machines]
+      summary: List all machines
+      parameters:
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/PageNumber'
+      responses:
+        '200':
+          description: A list of machines.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MachineCollectionDocument'
+  /machines/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveMachine
+      tags: [Machines]
+      summary: Retrieve a machine
+      responses:
+        '200':
+          description: A machine.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MachineDocument'
+    patch:
+      operationId: updateMachine
+      tags: [Machines]
+      summary: Update a machine
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/MachineDocument'
+      responses:
+        '200':
+          description: Machine updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MachineDocument'
+    delete:
+      operationId: deactivateMachine
+      tags: [Machines]
+      summary: Deactivate a machine
+      responses:
+        '204':
+          description: Machine deactivated.
+  /machines/{id}/actions/ping:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    post:
+      operationId: pingMachine
+      tags: [Machines]
+      summary: Ping a machine (heartbeat)
+      description: Send a heartbeat ping to keep a machine's activation alive.
+      responses:
+        '200':
+          description: The pinged machine.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MachineDocument'
+  /machines/{id}/components:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      operationId: listMachineComponents
+      tags: [Components]
+      summary: List a machine's components
+      responses:
+        '200':
+          description: A list of components.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ComponentCollectionDocument'
+  /components:
+    post:
+      operationId: createComponent
+      tags: [Components]
+      summary: Create a component
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ComponentDocument'
+      responses:
+        '201':
+          description: Component created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ComponentDocument'
+    get:
+      operationId: listComponents
+      tags: [Components]
+      summary: List all components
+      responses:
+        '200':
+          description: A list of components.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ComponentCollectionDocument'
+  /processes:
+    post:
+      operationId: spawnProcess
+      tags: [Processes]
+      summary: Spawn a process
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ProcessDocument'
+      responses:
+        '201':
+          description: Process spawned.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProcessDocument'
+    get:
+      operationId: listProcesses
+      tags: [Processes]
+      summary: List all processes
+      responses:
+        '200':
+          description: A list of processes.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProcessCollectionDocument'
+  /processes/{id}/actions/ping:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    post:
+      operationId: pingProcess
+      tags: [Processes]
+      summary: Ping a process (heartbeat)
+      responses:
+        '200':
+          description: The pinged process.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProcessDocument'
+  /policies:
+    post:
+      operationId: createPolicy
+      tags: [Policies]
+      summary: Create a policy
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/PolicyDocument'
+      responses:
+        '201':
+          description: Policy created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PolicyDocument'
+    get:
+      operationId: listPolicies
+      tags: [Policies]
+      summary: List all policies
+      responses:
+        '200':
+          description: A list of policies.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PolicyCollectionDocument'
+  /policies/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrievePolicy
+      tags: [Policies]
+      summary: Retrieve a policy
+      responses:
+        '200':
+          description: A policy.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PolicyDocument'
+    patch:
+      operationId: updatePolicy
+      tags: [Policies]
+      summary: Update a policy
+      responses:
+        '200':
+          description: Policy updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/PolicyDocument'
+    delete:
+      operationId: deletePolicy
+      tags: [Policies]
+      summary: Delete a policy
+      responses:
+        '204':
+          description: Policy deleted.
+  /products:
+    post:
+      operationId: createProduct
+      tags: [Products]
+      summary: Create a product
+      responses:
+        '201':
+          description: Product created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProductDocument'
+    get:
+      operationId: listProducts
+      tags: [Products]
+      summary: List all products
+      responses:
+        '200':
+          description: A list of products.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProductCollectionDocument'
+  /products/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveProduct
+      tags: [Products]
+      summary: Retrieve a product
+      responses:
+        '200':
+          description: A product.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProductDocument'
+    patch:
+      operationId: updateProduct
+      tags: [Products]
+      summary: Update a product
+      responses:
+        '200':
+          description: Product updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProductDocument'
+    delete:
+      operationId: deleteProduct
+      tags: [Products]
+      summary: Delete a product
+      responses:
+        '204':
+          description: Product deleted.
+  /users:
+    post:
+      operationId: createUser
+      tags: [Users]
+      summary: Create a user
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/UserDocument'
+      responses:
+        '201':
+          description: User created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserDocument'
+    get:
+      operationId: listUsers
+      tags: [Users]
+      summary: List all users
+      responses:
+        '200':
+          description: A list of users.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserCollectionDocument'
+  /users/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveUser
+      tags: [Users]
+      summary: Retrieve a user
+      responses:
+        '200':
+          description: A user.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserDocument'
+    patch:
+      operationId: updateUser
+      tags: [Users]
+      summary: Update a user
+      responses:
+        '200':
+          description: User updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserDocument'
+    delete:
+      operationId: deleteUser
+      tags: [Users]
+      summary: Delete a user
+      responses:
+        '204':
+          description: User deleted.
+  /entitlements:
+    post:
+      operationId: createEntitlement
+      tags: [Entitlements]
+      summary: Create an entitlement
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/EntitlementDocument'
+      responses:
+        '201':
+          description: Entitlement created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/EntitlementDocument'
+    get:
+      operationId: listEntitlements
+      tags: [Entitlements]
+      summary: List all entitlements
+      responses:
+        '200':
+          description: A list of entitlements.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/EntitlementCollectionDocument'
+  /entitlements/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveEntitlement
+      tags: [Entitlements]
+      summary: Retrieve an entitlement
+      responses:
+        '200':
+          description: An entitlement.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/EntitlementDocument'
+    patch:
+      operationId: updateEntitlement
+      tags: [Entitlements]
+      summary: Update an entitlement
+      responses:
+        '200':
+          description: Entitlement updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/EntitlementDocument'
+    delete:
+      operationId: deleteEntitlement
+      tags: [Entitlements]
+      summary: Delete an entitlement
+      responses:
+        '204':
+          description: Entitlement deleted.
+  /releases:
+    post:
+      operationId: createRelease
+      tags: [Releases]
+      summary: Create a release
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ReleaseDocument'
+      responses:
+        '201':
+          description: Release created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReleaseDocument'
+    get:
+      operationId: listReleases
+      tags: [Releases]
+      summary: List all releases
+      responses:
+        '200':
+          description: A list of releases.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReleaseCollectionDocument'
+  /releases/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveRelease
+      tags: [Releases]
+      summary: Retrieve a release
+      responses:
+        '200':
+          description: A release.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReleaseDocument'
+    patch:
+      operationId: updateRelease
+      tags: [Releases]
+      summary: Update a release
+      responses:
+        '200':
+          description: Release updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReleaseDocument'
+    delete:
+      operationId: deleteRelease
+      tags: [Releases]
+      summary: Delete a release
+      responses:
+        '204':
+          description: Release deleted.
+  /releases/{id}/actions/upgrade:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      operationId: upgradeRelease
+      tags: [Releases]
+      summary: Upgrade a release
+      description: >-
+        Resolve the next available upgrade for the current release on a given
+        channel and platform for auto-update.
+      responses:
+        '200':
+          description: The upgrade release, if any.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReleaseDocument'
+        '204':
+          description: No upgrade available.
+  /artifacts:
+    post:
+      operationId: uploadArtifact
+      tags: [Artifacts]
+      summary: Upload an artifact
+      description: >-
+        Create an artifact for a release. Responds with a redirect to a
+        pre-signed URL to which the binary is uploaded.
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ArtifactDocument'
+      responses:
+        '201':
+          description: Artifact created; body includes upload URL.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ArtifactDocument'
+    get:
+      operationId: listArtifacts
+      tags: [Artifacts]
+      summary: List all artifacts
+      responses:
+        '200':
+          description: A list of artifacts.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ArtifactCollectionDocument'
+  /artifacts/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      operationId: downloadArtifact
+      tags: [Artifacts]
+      summary: Download an artifact
+      description: >-
+        Retrieve the artifact. Responds with a 303 redirect to a short-lived,
+        pre-signed download URL when the requesting license is entitled.
+      responses:
+        '200':
+          description: Artifact metadata.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ArtifactDocument'
+        '303':
+          description: Redirect to the pre-signed download URL.
+    delete:
+      operationId: yankArtifact
+      tags: [Artifacts]
+      summary: Yank an artifact
+      responses:
+        '204':
+          description: Artifact yanked.
+  /webhook-endpoints:
+    post:
+      operationId: createWebhookEndpoint
+      tags: [Webhooks]
+      summary: Create a webhook endpoint
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/WebhookEndpointDocument'
+      responses:
+        '201':
+          description: Webhook endpoint created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpointDocument'
+    get:
+      operationId: listWebhookEndpoints
+      tags: [Webhooks]
+      summary: List all webhook endpoints
+      responses:
+        '200':
+          description: A list of webhook endpoints.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpointCollectionDocument'
+  /webhook-endpoints/{id}:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveWebhookEndpoint
+      tags: [Webhooks]
+      summary: Retrieve a webhook endpoint
+      responses:
+        '200':
+          description: A webhook endpoint.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpointDocument'
+    patch:
+      operationId: updateWebhookEndpoint
+      tags: [Webhooks]
+      summary: Update a webhook endpoint
+      responses:
+        '200':
+          description: Webhook endpoint updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpointDocument'
+    delete:
+      operationId: deleteWebhookEndpoint
+      tags: [Webhooks]
+      summary: Delete a webhook endpoint
+      responses:
+        '204':
+          description: Webhook endpoint deleted.
+  /webhook-events:
+    get:
+      operationId: listWebhookEvents
+      tags: [Webhooks]
+      summary: List all webhook events
+      responses:
+        '200':
+          description: A list of webhook events.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WebhookEventCollectionDocument'
+  /webhook-events/{id}/actions/retry:
+    parameters:
+      - $ref: '#/components/parameters/Id'
+    post:
+      operationId: retryWebhookEvent
+      tags: [Webhooks]
+      summary: Retry a webhook event
+      responses:
+        '200':
+          description: The retried webhook event.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WebhookEventDocument'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: >-
+        Admin, environment, product, user, or license bearer token in the
+        `Authorization: Bearer <token>` header.
+    licenseKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: license-key
+      description: >-
+        A license key passed as `Authorization: License <key>` for license
+        validation and self-service actions.
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic (email:password) used only to generate a user token.
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
+    PageSize:
+      name: page[size]
+      in: query
+      required: false
+      description: Number of resources per page (1-100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    PageNumber:
+      name: page[number]
+      in: query
+      required: false
+      description: The page of resources to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+  responses:
+    Unauthorized:
+      description: Authentication failed.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/ErrorDocument'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/ErrorDocument'
+  schemas:
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required: [type, id]
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+            - $ref: '#/components/schemas/ResourceIdentifier'
+            - type: array
+              items:
+                $ref: '#/components/schemas/ResourceIdentifier'
+            - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
+        code:
+          type: string
+        source:
+          type: object
+          properties:
+            pointer:
+              type: string
+            parameter:
+              type: string
+    ErrorDocument:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      required: [errors]
+    TokenResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: tokens
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            kind:
+              type: string
+              enum: [admin-token, environment-token, product-token, user-token, license-token, activation-token]
+            token:
+              type: string
+              description: The raw token value; only returned on generation/regeneration.
+            name:
+              type: string
+              nullable: true
+            expiry:
+              type: string
+              format: date-time
+              nullable: true
+            created:
+              type: string
+              format: date-time
+            updated:
+              type: string
+              format: date-time
+        relationships:
+          type: object
+          properties:
+            bearer:
+              $ref: '#/components/schemas/Relationship'
+    TokenDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/TokenResource'
+    TokenCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TokenResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    LicenseResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: licenses
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              nullable: true
+            key:
+              type: string
+            expiry:
+              type: string
+              format: date-time
+              nullable: true
+            status:
+              type: string
+              enum: [ACTIVE, INACTIVE, EXPIRING, EXPIRED, SUSPENDED, BANNED]
+            uses:
+              type: integer
+            maxMachines:
+              type: integer
+              nullable: true
+            maxCores:
+              type: integer
+              nullable: true
+            protected:
+              type: boolean
+            suspended:
+              type: boolean
+            metadata:
+              type: object
+              additionalProperties: true
+            created:
+              type: string
+              format: date-time
+            updated:
+              type: string
+              format: date-time
+        relationships:
+          type: object
+          properties:
+            account:
+              $ref: '#/components/schemas/Relationship'
+            product:
+              $ref: '#/components/schemas/Relationship'
+            policy:
+              $ref: '#/components/schemas/Relationship'
+            owner:
+              $ref: '#/components/schemas/Relationship'
+            machines:
+              $ref: '#/components/schemas/Relationship'
+            entitlements:
+              $ref: '#/components/schemas/Relationship'
+    LicenseDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LicenseResource'
+    LicenseCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/LicenseResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+        meta:
+          type: object
+          properties:
+            count:
+              type: integer
+    LicenseFileDocument:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              example: license-files
+            attributes:
+              type: object
+              properties:
+                certificate:
+                  type: string
+                  description: PEM-encoded, signed license file for offline validation.
+                encrypted:
+                  type: boolean
+                ttl:
+                  type: integer
+                  nullable: true
+                expiry:
+                  type: string
+                  format: date-time
+                  nullable: true
+    ValidateKeyDocument:
+      type: object
+      properties:
+        meta:
+          type: object
+          properties:
+            key:
+              type: string
+            scope:
+              type: object
+              properties:
+                fingerprint:
+                  type: string
+                product:
+                  type: string
+                entitlements:
+                  type: array
+                  items:
+                    type: string
+          required: [key]
+    ValidationScopeDocument:
+      type: object
+      properties:
+        meta:
+          type: object
+          properties:
+            scope:
+              type: object
+              properties:
+                fingerprint:
+                  type: string
+                entitlements:
+                  type: array
+                  items:
+                    type: string
+    ValidationResultDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LicenseResource'
+        meta:
+          type: object
+          properties:
+            ts:
+              type: string
+              format: date-time
+            valid:
+              type: boolean
+            detail:
+              type: string
+            code:
+              type: string
+              example: VALID
+              description: >-
+                Validation code, e.g. VALID, NOT_FOUND, SUSPENDED, EXPIRED,
+                OVERDUE, NO_MACHINE, NO_MACHINES, TOO_MANY_MACHINES,
+                FINGERPRINT_SCOPE_MISMATCH.
+    MachineResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: machines
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            fingerprint:
+              type: string
+            name:
+              type: string
+              nullable: true
+            platform:
+              type: string
+              nullable: true
+            hostname:
+              type: string
+              nullable: true
+            ip:
+              type: string
+              nullable: true
+            cores:
+              type: integer
+              nullable: true
+            heartbeatStatus:
+              type: string
+              enum: [NOT_STARTED, ALIVE, DEAD, RESURRECTED]
+            heartbeatDuration:
+              type: integer
+              nullable: true
+            metadata:
+              type: object
+              additionalProperties: true
+            created:
+              type: string
+              format: date-time
+            updated:
+              type: string
+              format: date-time
+        relationships:
+          type: object
+          properties:
+            license:
+              $ref: '#/components/schemas/Relationship'
+            owner:
+              $ref: '#/components/schemas/Relationship'
+            components:
+              $ref: '#/components/schemas/Relationship'
+    MachineDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/MachineResource'
+    MachineCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MachineResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    ComponentResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: components
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            fingerprint:
+              type: string
+            name:
+              type: string
+            created:
+              type: string
+              format: date-time
+        relationships:
+          type: object
+          properties:
+            machine:
+              $ref: '#/components/schemas/Relationship'
+            license:
+              $ref: '#/components/schemas/Relationship'
+    ComponentDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ComponentResource'
+    ComponentCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponentResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    ProcessResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: processes
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            pid:
+              type: string
+            status:
+              type: string
+              enum: [ALIVE, DEAD]
+            interval:
+              type: integer
+            created:
+              type: string
+              format: date-time
+        relationships:
+          type: object
+          properties:
+            machine:
+              $ref: '#/components/schemas/Relationship'
+            license:
+              $ref: '#/components/schemas/Relationship'
+    ProcessDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProcessResource'
+    ProcessCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    PolicyResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: policies
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            duration:
+              type: integer
+              nullable: true
+            maxMachines:
+              type: integer
+              nullable: true
+            maxCores:
+              type: integer
+              nullable: true
+            maxUses:
+              type: integer
+              nullable: true
+            floating:
+              type: boolean
+            strict:
+              type: boolean
+            encrypted:
+              type: boolean
+            protected:
+              type: boolean
+            requireCheckIn:
+              type: boolean
+            checkInInterval:
+              type: string
+              enum: [day, week, month, year]
+              nullable: true
+            expirationStrategy:
+              type: string
+              enum: [RESTRICT_ACCESS, REVOKE_ACCESS, MAINTAIN_ACCESS, ALLOW_ACCESS]
+            authenticationStrategy:
+              type: string
+              enum: [TOKEN, LICENSE, MIXED, NONE]
+            overageStrategy:
+              type: string
+              enum: [NO_OVERAGE, ALWAYS_ALLOW_OVERAGE, ALLOW_1_25X_OVERAGE, ALLOW_1_5X_OVERAGE, ALLOW_2X_OVERAGE]
+            scheme:
+              type: string
+              nullable: true
+            metadata:
+              type: object
+              additionalProperties: true
+        relationships:
+          type: object
+          properties:
+            account:
+              $ref: '#/components/schemas/Relationship'
+            product:
+              $ref: '#/components/schemas/Relationship'
+    PolicyDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PolicyResource'
+    PolicyCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    ProductResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: products
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            code:
+              type: string
+              nullable: true
+            distributionStrategy:
+              type: string
+              enum: [LICENSED, OPEN, CLOSED]
+            url:
+              type: string
+              nullable: true
+            platforms:
+              type: array
+              items:
+                type: string
+            metadata:
+              type: object
+              additionalProperties: true
+    ProductDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProductResource'
+    ProductCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    UserResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: users
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            firstName:
+              type: string
+              nullable: true
+            lastName:
+              type: string
+              nullable: true
+            email:
+              type: string
+              format: email
+            status:
+              type: string
+              enum: [ACTIVE, INACTIVE, BANNED]
+            role:
+              type: string
+              enum: [user, admin, developer, sales-agent, support-agent, read-only]
+            metadata:
+              type: object
+              additionalProperties: true
+    UserDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserResource'
+    UserCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    EntitlementResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: entitlements
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              nullable: true
+            code:
+              type: string
+              description: Unique, immutable entitlement code (e.g. FEATURE_X).
+            metadata:
+              type: object
+              additionalProperties: true
+    EntitlementDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EntitlementResource'
+    EntitlementCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitlementResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    ReleaseResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: releases
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              nullable: true
+            version:
+              type: string
+              description: Semver version string.
+            channel:
+              type: string
+              enum: [stable, rc, beta, alpha, dev]
+            status:
+              type: string
+              enum: [DRAFT, PUBLISHED, YANKED]
+            tag:
+              type: string
+              nullable: true
+            metadata:
+              type: object
+              additionalProperties: true
+        relationships:
+          type: object
+          properties:
+            product:
+              $ref: '#/components/schemas/Relationship'
+            artifacts:
+              $ref: '#/components/schemas/Relationship'
+    ReleaseDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ReleaseResource'
+    ReleaseCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    ArtifactResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: artifacts
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            filename:
+              type: string
+            filetype:
+              type: string
+              nullable: true
+            filesize:
+              type: integer
+              nullable: true
+            platform:
+              type: string
+              nullable: true
+            arch:
+              type: string
+              nullable: true
+            signature:
+              type: string
+              nullable: true
+            checksum:
+              type: string
+              nullable: true
+            status:
+              type: string
+              enum: [WAITING, UPLOADED, FAILED, YANKED]
+            url:
+              type: string
+              nullable: true
+              description: Pre-signed upload or download URL (transient).
+        relationships:
+          type: object
+          properties:
+            release:
+              $ref: '#/components/schemas/Relationship'
+    ArtifactDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ArtifactResource'
+    ArtifactCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtifactResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    WebhookEndpointResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: webhook-endpoints
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+            subscriptions:
+              type: array
+              items:
+                type: string
+              description: Event types, e.g. license.created, machine.deleted, or "*".
+            signatureAlgorithm:
+              type: string
+              enum: [ed25519, rsa-pss-sha256, rsa-sha256]
+    WebhookEndpointDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/WebhookEndpointResource'
+    WebhookEndpointCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookEndpointResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    WebhookEventResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: webhook-events
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            event:
+              type: string
+              example: license.created
+            payload:
+              type: string
+              description: Serialized JSON:API document for the event subject.
+            status:
+              type: string
+              enum: [DELIVERING, DELIVERED, FAILED]
+            lastResponseCode:
+              type: integer
+              nullable: true
+            created:
+              type: string
+              format: date-time
+    WebhookEventDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/WebhookEventResource'
+    WebhookEventCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookEventResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+security:
+  - bearerAuth: []
+  - licenseKeyAuth: []

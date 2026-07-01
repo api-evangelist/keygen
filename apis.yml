@@ -1,0 +1,247 @@
+aid: keygen
+url: https://raw.githubusercontent.com/api-evangelist/keygen/refs/heads/main/apis.yml
+name: Keygen
+kind: company
+description: Keygen is a software licensing, entitlements, and distribution API for
+  desktop, on-prem, IoT, and other installed applications. It issues license keys,
+  activates and tracks machines, enforces policy-based entitlements, and distributes
+  releases and artifacts for auto-updates. Keygen ships as the source-available,
+  self-hostable Keygen CE / EE and as the managed Keygen Cloud, exposing a JSON:API
+  interface under api.keygen.sh.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Software Licensing
+- Entitlements
+- License Keys
+- Machine Activation
+- Distribution
+- Auto-Update
+created: '2026-07-01'
+modified: '2026-07-01'
+specificationVersion: '0.19'
+apis:
+- aid: keygen:keygen-licenses-api
+  name: Keygen Licenses API
+  tags:
+  - Licenses
+  - License Keys
+  - Validation
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://keygen.sh/docs/api/licenses/
+  baseURL: https://api.keygen.sh/v1/accounts/{account}
+  properties:
+  - url: https://keygen.sh/docs/api/licenses/
+    type: Documentation
+  - url: https://keygen.sh/docs/api/licenses/
+    type: APIReference
+  - url: openapi/keygen-openapi.yml
+    type: OpenAPI
+  description: Create, retrieve, update, delete, suspend, reinstate, and renew license
+    keys; validate a license key by ID or key, and check licenses out or in for
+    offline use. JSON:API over application/vnd.api+json.
+- aid: keygen:keygen-machines-activation-api
+  name: Keygen Machines / Activation API
+  tags:
+  - Machines
+  - Activation
+  - Fingerprint
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://keygen.sh/docs/api/machines/
+  baseURL: https://api.keygen.sh/v1/accounts/{account}
+  properties:
+  - url: https://keygen.sh/docs/api/machines/
+    type: Documentation
+  - url: openapi/keygen-openapi.yml
+    type: OpenAPI
+  description: Activate a machine against a license by hardware fingerprint, list and
+    manage activated machines, send heartbeat pings to keep node-locked activations
+    alive, and check machines out or in for offline activation.
+- aid: keygen:keygen-policies-api
+  name: Keygen Policies API
+  tags:
+  - Policies
+  - Rules
+  - Enforcement
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://keygen.sh/docs/api/policies/
+  baseURL: https://api.keygen.sh/v1/accounts/{account}
+  properties:
+  - url: https://keygen.sh/docs/api/policies/
+    type: Documentation
+  - url: openapi/keygen-openapi.yml
+    type: OpenAPI
+  description: Define the licensing model - expiration, machine and core limits,
+    floating vs node-locked, check-in cadence, encryption and cryptographic scheme,
+    and overage strategy - that governs the licenses derived from a policy.
+- aid: keygen:keygen-products-api
+  name: Keygen Products API
+  tags:
+  - Products
+  - Applications
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://keygen.sh/docs/api/products/
+  baseURL: https://api.keygen.sh/v1/accounts/{account}
+  properties:
+  - url: https://keygen.sh/docs/api/products/
+    type: Documentation
+  - url: openapi/keygen-openapi.yml
+    type: OpenAPI
+  description: Manage the products (applications) an account licenses and distributes,
+    including distribution strategy, platforms, and the product tokens used for
+    server-side automation.
+- aid: keygen:keygen-users-api
+  name: Keygen Users API
+  tags:
+  - Users
+  - Accounts
+  - Owners
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://keygen.sh/docs/api/users/
+  baseURL: https://api.keygen.sh/v1/accounts/{account}
+  properties:
+  - url: https://keygen.sh/docs/api/users/
+    type: Documentation
+  - url: openapi/keygen-openapi.yml
+    type: OpenAPI
+  description: Create and manage end users and license owners, assign roles, ban or
+    unban users, and update passwords - the identities that own and validate
+    licenses.
+- aid: keygen:keygen-entitlements-api
+  name: Keygen Entitlements API
+  tags:
+  - Entitlements
+  - Feature Flags
+  - Permissions
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://keygen.sh/docs/api/entitlements/
+  baseURL: https://api.keygen.sh/v1/accounts/{account}
+  properties:
+  - url: https://keygen.sh/docs/api/entitlements/
+    type: Documentation
+  - url: openapi/keygen-openapi.yml
+    type: OpenAPI
+  description: Define named entitlements (feature flags) and attach or detach them
+    from policies and licenses to gate product features and enforce fine-grained
+    permissions per customer.
+- aid: keygen:keygen-releases-distribution-api
+  name: Keygen Releases / Distribution API
+  tags:
+  - Releases
+  - Distribution
+  - Auto-Update
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://keygen.sh/docs/api/releases/
+  baseURL: https://api.keygen.sh/v1/accounts/{account}
+  properties:
+  - url: https://keygen.sh/docs/api/releases/
+    type: Documentation
+  - url: openapi/keygen-openapi.yml
+    type: OpenAPI
+  description: Publish, list, and manage semver-tagged releases for software
+    distribution and auto-update, resolving upgrades for an entitled license across
+    channels (stable, beta, alpha, rc) and platforms.
+- aid: keygen:keygen-artifacts-api
+  name: Keygen Artifacts API
+  tags:
+  - Artifacts
+  - Binaries
+  - Downloads
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://keygen.sh/docs/api/artifacts/
+  baseURL: https://api.keygen.sh/v1/accounts/{account}
+  properties:
+  - url: https://keygen.sh/docs/api/artifacts/
+    type: Documentation
+  - url: openapi/keygen-openapi.yml
+    type: OpenAPI
+  description: Upload, download, and yank the binary artifacts attached to a release -
+    installers, packages, and update files - with redirect-based downloads gated
+    by license entitlement.
+- aid: keygen:keygen-tokens-auth-api
+  name: Keygen Tokens / Auth API
+  tags:
+  - Tokens
+  - Authentication
+  - API Keys
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://keygen.sh/docs/api/tokens/
+  baseURL: https://api.keygen.sh/v1/accounts/{account}
+  properties:
+  - url: https://keygen.sh/docs/api/authentication/
+    type: Documentation
+  - url: https://keygen.sh/docs/api/tokens/
+    type: APIReference
+  - url: openapi/keygen-openapi.yml
+    type: OpenAPI
+  description: Generate, list, retrieve, regenerate, and revoke bearer tokens -
+    admin, environment, product, user, and license tokens - and authenticate via
+    HTTP Basic or license-key auth to obtain scoped access.
+- aid: keygen:keygen-webhooks-api
+  name: Keygen Webhooks API
+  tags:
+  - Webhooks
+  - Events
+  - Notifications
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://keygen.sh/docs/api/webhooks/
+  baseURL: https://api.keygen.sh/v1/accounts/{account}
+  properties:
+  - url: https://keygen.sh/docs/api/webhooks/
+    type: Documentation
+  - url: openapi/keygen-openapi.yml
+    type: OpenAPI
+  description: Register webhook endpoints and consume signed webhook events for
+    license, machine, user, release, and process lifecycle changes; retrieve and
+    retry recorded webhook event deliveries.
+- aid: keygen:keygen-components-api
+  name: Keygen Machine Components API
+  tags:
+  - Components
+  - Hardware
+  - Fingerprint
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://keygen.sh/docs/api/components/
+  baseURL: https://api.keygen.sh/v1/accounts/{account}
+  properties:
+  - url: https://keygen.sh/docs/api/components/
+    type: Documentation
+  - url: openapi/keygen-openapi.yml
+    type: OpenAPI
+  description: Track individual hardware components (CPUs, drives, GPUs) that make up
+    a machine fingerprint for stricter, component-level node-locking and
+    anti-tamper enforcement.
+- aid: keygen:keygen-processes-api
+  name: Keygen Machine Processes API
+  tags:
+  - Processes
+  - Concurrency
+  - Metering
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://keygen.sh/docs/api/processes/
+  baseURL: https://api.keygen.sh/v1/accounts/{account}
+  properties:
+  - url: https://keygen.sh/docs/api/processes/
+    type: Documentation
+  - url: openapi/keygen-openapi.yml
+    type: OpenAPI
+  description: Spawn, heartbeat, and kill concurrent processes running on an
+    activated machine to enforce per-process concurrency limits and meter
+    floating-license usage.
+common:
+- type: GitHubOrganization
+  url: https://github.com/keygen-sh
+- type: LinkedIn
+  url: https://www.linkedin.com/company/keygen-sh
+- type: Website
+  url: https://keygen.sh/
+- type: Documentation
+  url: https://keygen.sh/docs/api/
+- type: Plans
+  url: plans/keygen-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/keygen-rate-limits.yml
+- type: FinOps
+  url: finops/keygen-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
