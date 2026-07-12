@@ -1,0 +1,21 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/keygen-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: token
+  description: 'Admin, environment, product, user, or license bearer token in the `Authorization:
+    Bearer <token>` header.'
+  sources:
+  - openapi/keygen-openapi.yml
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: HTTP Basic (email:password) used only to generate a user token.
+  sources:
+  - openapi/keygen-openapi.yml

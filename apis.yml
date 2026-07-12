@@ -228,6 +228,14 @@ apis:
     activated machine to enforce per-process concurrency limits and meter
     floating-license usage.
 common:
+- type: TrustCenter
+  url: security/keygen-trust-center.yml
+- type: VulnerabilityDisclosure
+  url: security/keygen-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/keygen-domain-security.yml
+- type: Authentication
+  url: authentication/keygen-authentication.yml
 - type: GitHubOrganization
   url: https://github.com/keygen-sh
 - type: LinkedIn
@@ -242,6 +250,8 @@ common:
   url: rate-limits/keygen-rate-limits.yml
 - type: FinOps
   url: finops/keygen-finops.yml
+- type: Blog
+  url: https://keygen.sh/blog/feed.xml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
