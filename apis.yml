@@ -228,6 +228,8 @@ apis:
     activated machine to enforce per-process concurrency limits and meter
     floating-license usage.
 common:
+- type: AgenticAccess
+  url: agentic-access/keygen-agentic-access.yml
 - type: TrustCenter
   url: security/keygen-trust-center.yml
 - type: VulnerabilityDisclosure
