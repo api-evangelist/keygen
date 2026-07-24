@@ -1,0 +1,185 @@
+openapi: 3.0.3
+info:
+  title: Keygen Artifacts Users API
+  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  termsOfService: https://keygen.sh/terms/
+  contact:
+    name: Keygen Support
+    url: https://keygen.sh/contact/
+    email: support@keygen.sh
+  license:
+    name: Documentation - CC BY 4.0
+    url: https://keygen.sh/docs/api/
+  version: '1.0'
+servers:
+- url: https://api.keygen.sh/v1/accounts/{account}
+  description: Keygen Cloud (and default self-hosted CE/EE base path)
+  variables:
+    account:
+      default: your-account-id
+      description: Account UUID or slug.
+security:
+- bearerAuth: []
+- licenseKeyAuth: []
+tags:
+- name: Users
+  description: End users and license owners.
+paths:
+  /users:
+    post:
+      operationId: createUser
+      tags:
+      - Users
+      summary: Create a user
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/UserDocument'
+      responses:
+        '201':
+          description: User created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserDocument'
+    get:
+      operationId: listUsers
+      tags:
+      - Users
+      summary: List all users
+      responses:
+        '200':
+          description: A list of users.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserCollectionDocument'
+  /users/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveUser
+      tags:
+      - Users
+      summary: Retrieve a user
+      responses:
+        '200':
+          description: A user.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserDocument'
+    patch:
+      operationId: updateUser
+      tags:
+      - Users
+      summary: Update a user
+      responses:
+        '200':
+          description: User updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/UserDocument'
+    delete:
+      operationId: deleteUser
+      tags:
+      - Users
+      summary: Delete a user
+      responses:
+        '204':
+          description: User deleted.
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    UserResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: users
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            firstName:
+              type: string
+              nullable: true
+            lastName:
+              type: string
+              nullable: true
+            email:
+              type: string
+              format: email
+            status:
+              type: string
+              enum:
+              - ACTIVE
+              - INACTIVE
+              - BANNED
+            role:
+              type: string
+              enum:
+              - user
+              - admin
+              - developer
+              - sales-agent
+              - support-agent
+              - read-only
+            metadata:
+              type: object
+              additionalProperties: true
+    UserCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    UserDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserResource'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: 'Admin, environment, product, user, or license bearer token in the `Authorization: Bearer <token>` header.'
+    licenseKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: license-key
+      description: 'A license key passed as `Authorization: License <key>` for license validation and self-service actions.'
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic (email:password) used only to generate a user token.

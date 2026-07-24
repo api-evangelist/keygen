@@ -1,0 +1,469 @@
+openapi: 3.0.3
+info:
+  title: Keygen Artifacts Licenses API
+  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  termsOfService: https://keygen.sh/terms/
+  contact:
+    name: Keygen Support
+    url: https://keygen.sh/contact/
+    email: support@keygen.sh
+  license:
+    name: Documentation - CC BY 4.0
+    url: https://keygen.sh/docs/api/
+  version: '1.0'
+servers:
+- url: https://api.keygen.sh/v1/accounts/{account}
+  description: Keygen Cloud (and default self-hosted CE/EE base path)
+  variables:
+    account:
+      default: your-account-id
+      description: Account UUID or slug.
+security:
+- bearerAuth: []
+- licenseKeyAuth: []
+tags:
+- name: Licenses
+  description: Issue, validate, and manage license keys.
+paths:
+  /licenses:
+    post:
+      operationId: createLicense
+      tags:
+      - Licenses
+      summary: Create a license
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/LicenseDocument'
+      responses:
+        '201':
+          description: License created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/LicenseDocument'
+    get:
+      operationId: listLicenses
+      tags:
+      - Licenses
+      summary: List all licenses
+      parameters:
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/PageNumber'
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - ACTIVE
+          - INACTIVE
+          - EXPIRING
+          - EXPIRED
+          - SUSPENDED
+          - BANNED
+        description: Filter by license status.
+      responses:
+        '200':
+          description: A list of licenses.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/LicenseCollectionDocument'
+  /licenses/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveLicense
+      tags:
+      - Licenses
+      summary: Retrieve a license
+      responses:
+        '200':
+          description: A license.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/LicenseDocument'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateLicense
+      tags:
+      - Licenses
+      summary: Update a license
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/LicenseDocument'
+      responses:
+        '200':
+          description: License updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/LicenseDocument'
+    delete:
+      operationId: deleteLicense
+      tags:
+      - Licenses
+      summary: Delete a license
+      responses:
+        '204':
+          description: License deleted.
+  /licenses/{id}/actions/validate:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    post:
+      operationId: validateLicenseById
+      tags:
+      - Licenses
+      summary: Validate a license (by ID)
+      description: Validate a license by ID, optionally scoped to a machine fingerprint, product, or entitlements. Returns a `meta` object with `valid`, `detail`, and `code`.
+      requestBody:
+        required: false
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ValidationScopeDocument'
+      responses:
+        '200':
+          description: A validation result.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ValidationResultDocument'
+  /licenses/actions/validate-key:
+    post:
+      operationId: validateLicenseByKey
+      tags:
+      - Licenses
+      summary: Validate a license (by key)
+      description: Validate a license using its key without prior authentication - the primary offline/online validation entry point for clients.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ValidateKeyDocument'
+      responses:
+        '200':
+          description: A validation result.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ValidationResultDocument'
+  /licenses/{id}/actions/check-out:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    post:
+      operationId: checkoutLicense
+      tags:
+      - Licenses
+      summary: Check-out a license
+      description: Check out a signed, encrypted license file for offline validation.
+      responses:
+        '200':
+          description: A license file.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/LicenseFileDocument'
+  /licenses/{id}/actions/check-in:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    post:
+      operationId: checkinLicense
+      tags:
+      - Licenses
+      summary: Check-in a license
+      description: Perform a required license check-in to reset the check-in window.
+      responses:
+        '200':
+          description: The checked-in license.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/LicenseDocument'
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
+    PageNumber:
+      name: page[number]
+      in: query
+      required: false
+      description: The page of resources to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    PageSize:
+      name: page[size]
+      in: query
+      required: false
+      description: Number of resources per page (1-100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+  schemas:
+    LicenseDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LicenseResource'
+    ErrorDocument:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      required:
+      - errors
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
+        code:
+          type: string
+        source:
+          type: object
+          properties:
+            pointer:
+              type: string
+            parameter:
+              type: string
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+    LicenseResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: licenses
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              nullable: true
+            key:
+              type: string
+            expiry:
+              type: string
+              format: date-time
+              nullable: true
+            status:
+              type: string
+              enum:
+              - ACTIVE
+              - INACTIVE
+              - EXPIRING
+              - EXPIRED
+              - SUSPENDED
+              - BANNED
+            uses:
+              type: integer
+            maxMachines:
+              type: integer
+              nullable: true
+            maxCores:
+              type: integer
+              nullable: true
+            protected:
+              type: boolean
+            suspended:
+              type: boolean
+            metadata:
+              type: object
+              additionalProperties: true
+            created:
+              type: string
+              format: date-time
+            updated:
+              type: string
+              format: date-time
+        relationships:
+          type: object
+          properties:
+            account:
+              $ref: '#/components/schemas/Relationship'
+            product:
+              $ref: '#/components/schemas/Relationship'
+            policy:
+              $ref: '#/components/schemas/Relationship'
+            owner:
+              $ref: '#/components/schemas/Relationship'
+            machines:
+              $ref: '#/components/schemas/Relationship'
+            entitlements:
+              $ref: '#/components/schemas/Relationship'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    LicenseFileDocument:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            type:
+              type: string
+              example: license-files
+            attributes:
+              type: object
+              properties:
+                certificate:
+                  type: string
+                  description: PEM-encoded, signed license file for offline validation.
+                encrypted:
+                  type: boolean
+                ttl:
+                  type: integer
+                  nullable: true
+                expiry:
+                  type: string
+                  format: date-time
+                  nullable: true
+    ValidationResultDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LicenseResource'
+        meta:
+          type: object
+          properties:
+            ts:
+              type: string
+              format: date-time
+            valid:
+              type: boolean
+            detail:
+              type: string
+            code:
+              type: string
+              example: VALID
+              description: Validation code, e.g. VALID, NOT_FOUND, SUSPENDED, EXPIRED, OVERDUE, NO_MACHINE, NO_MACHINES, TOO_MANY_MACHINES, FINGERPRINT_SCOPE_MISMATCH.
+    ValidationScopeDocument:
+      type: object
+      properties:
+        meta:
+          type: object
+          properties:
+            scope:
+              type: object
+              properties:
+                fingerprint:
+                  type: string
+                entitlements:
+                  type: array
+                  items:
+                    type: string
+    LicenseCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/LicenseResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+        meta:
+          type: object
+          properties:
+            count:
+              type: integer
+    ValidateKeyDocument:
+      type: object
+      properties:
+        meta:
+          type: object
+          properties:
+            key:
+              type: string
+            scope:
+              type: object
+              properties:
+                fingerprint:
+                  type: string
+                product:
+                  type: string
+                entitlements:
+                  type: array
+                  items:
+                    type: string
+          required:
+          - key
+  responses:
+    NotFound:
+      description: Resource not found.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/ErrorDocument'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: 'Admin, environment, product, user, or license bearer token in the `Authorization: Bearer <token>` header.'
+    licenseKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: license-key
+      description: 'A license key passed as `Authorization: License <key>` for license validation and self-service actions.'
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic (email:password) used only to generate a user token.

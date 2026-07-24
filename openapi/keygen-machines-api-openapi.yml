@@ -1,0 +1,272 @@
+openapi: 3.0.3
+info:
+  title: Keygen Artifacts Machines API
+  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  termsOfService: https://keygen.sh/terms/
+  contact:
+    name: Keygen Support
+    url: https://keygen.sh/contact/
+    email: support@keygen.sh
+  license:
+    name: Documentation - CC BY 4.0
+    url: https://keygen.sh/docs/api/
+  version: '1.0'
+servers:
+- url: https://api.keygen.sh/v1/accounts/{account}
+  description: Keygen Cloud (and default self-hosted CE/EE base path)
+  variables:
+    account:
+      default: your-account-id
+      description: Account UUID or slug.
+security:
+- bearerAuth: []
+- licenseKeyAuth: []
+tags:
+- name: Machines
+  description: Activate and manage node-locked machines.
+paths:
+  /machines:
+    post:
+      operationId: activateMachine
+      tags:
+      - Machines
+      summary: Activate a machine
+      description: Activate a machine for a license by hardware fingerprint. Fails if the license has reached its policy machine limit.
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/MachineDocument'
+      responses:
+        '201':
+          description: Machine activated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MachineDocument'
+    get:
+      operationId: listMachines
+      tags:
+      - Machines
+      summary: List all machines
+      parameters:
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/PageNumber'
+      responses:
+        '200':
+          description: A list of machines.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MachineCollectionDocument'
+  /machines/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveMachine
+      tags:
+      - Machines
+      summary: Retrieve a machine
+      responses:
+        '200':
+          description: A machine.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MachineDocument'
+    patch:
+      operationId: updateMachine
+      tags:
+      - Machines
+      summary: Update a machine
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/MachineDocument'
+      responses:
+        '200':
+          description: Machine updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MachineDocument'
+    delete:
+      operationId: deactivateMachine
+      tags:
+      - Machines
+      summary: Deactivate a machine
+      responses:
+        '204':
+          description: Machine deactivated.
+  /machines/{id}/actions/ping:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    post:
+      operationId: pingMachine
+      tags:
+      - Machines
+      summary: Ping a machine (heartbeat)
+      description: Send a heartbeat ping to keep a machine's activation alive.
+      responses:
+        '200':
+          description: The pinged machine.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/MachineDocument'
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
+    PageSize:
+      name: page[size]
+      in: query
+      required: false
+      description: Number of resources per page (1-100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    PageNumber:
+      name: page[number]
+      in: query
+      required: false
+      description: The page of resources to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+  schemas:
+    MachineDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/MachineResource'
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+    MachineCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MachineResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    MachineResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: machines
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            fingerprint:
+              type: string
+            name:
+              type: string
+              nullable: true
+            platform:
+              type: string
+              nullable: true
+            hostname:
+              type: string
+              nullable: true
+            ip:
+              type: string
+              nullable: true
+            cores:
+              type: integer
+              nullable: true
+            heartbeatStatus:
+              type: string
+              enum:
+              - NOT_STARTED
+              - ALIVE
+              - DEAD
+              - RESURRECTED
+            heartbeatDuration:
+              type: integer
+              nullable: true
+            metadata:
+              type: object
+              additionalProperties: true
+            created:
+              type: string
+              format: date-time
+            updated:
+              type: string
+              format: date-time
+        relationships:
+          type: object
+          properties:
+            license:
+              $ref: '#/components/schemas/Relationship'
+            owner:
+              $ref: '#/components/schemas/Relationship'
+            components:
+              $ref: '#/components/schemas/Relationship'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: 'Admin, environment, product, user, or license bearer token in the `Authorization: Bearer <token>` header.'
+    licenseKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: license-key
+      description: 'A license key passed as `Authorization: License <key>` for license validation and self-service actions.'
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic (email:password) used only to generate a user token.

@@ -1,0 +1,242 @@
+openapi: 3.0.3
+info:
+  title: Keygen Artifacts Webhooks API
+  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  termsOfService: https://keygen.sh/terms/
+  contact:
+    name: Keygen Support
+    url: https://keygen.sh/contact/
+    email: support@keygen.sh
+  license:
+    name: Documentation - CC BY 4.0
+    url: https://keygen.sh/docs/api/
+  version: '1.0'
+servers:
+- url: https://api.keygen.sh/v1/accounts/{account}
+  description: Keygen Cloud (and default self-hosted CE/EE base path)
+  variables:
+    account:
+      default: your-account-id
+      description: Account UUID or slug.
+security:
+- bearerAuth: []
+- licenseKeyAuth: []
+tags:
+- name: Webhooks
+  description: Webhook endpoints and events.
+paths:
+  /webhook-endpoints:
+    post:
+      operationId: createWebhookEndpoint
+      tags:
+      - Webhooks
+      summary: Create a webhook endpoint
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/WebhookEndpointDocument'
+      responses:
+        '201':
+          description: Webhook endpoint created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpointDocument'
+    get:
+      operationId: listWebhookEndpoints
+      tags:
+      - Webhooks
+      summary: List all webhook endpoints
+      responses:
+        '200':
+          description: A list of webhook endpoints.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpointCollectionDocument'
+  /webhook-endpoints/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveWebhookEndpoint
+      tags:
+      - Webhooks
+      summary: Retrieve a webhook endpoint
+      responses:
+        '200':
+          description: A webhook endpoint.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpointDocument'
+    patch:
+      operationId: updateWebhookEndpoint
+      tags:
+      - Webhooks
+      summary: Update a webhook endpoint
+      responses:
+        '200':
+          description: Webhook endpoint updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WebhookEndpointDocument'
+    delete:
+      operationId: deleteWebhookEndpoint
+      tags:
+      - Webhooks
+      summary: Delete a webhook endpoint
+      responses:
+        '204':
+          description: Webhook endpoint deleted.
+  /webhook-events:
+    get:
+      operationId: listWebhookEvents
+      tags:
+      - Webhooks
+      summary: List all webhook events
+      responses:
+        '200':
+          description: A list of webhook events.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WebhookEventCollectionDocument'
+  /webhook-events/{id}/actions/retry:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    post:
+      operationId: retryWebhookEvent
+      tags:
+      - Webhooks
+      summary: Retry a webhook event
+      responses:
+        '200':
+          description: The retried webhook event.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/WebhookEventDocument'
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    WebhookEventDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/WebhookEventResource'
+    WebhookEndpointCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookEndpointResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    WebhookEventCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookEventResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    WebhookEndpointDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/WebhookEndpointResource'
+    WebhookEndpointResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: webhook-endpoints
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+            subscriptions:
+              type: array
+              items:
+                type: string
+              description: Event types, e.g. license.created, machine.deleted, or "*".
+            signatureAlgorithm:
+              type: string
+              enum:
+              - ed25519
+              - rsa-pss-sha256
+              - rsa-sha256
+    WebhookEventResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: webhook-events
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            event:
+              type: string
+              example: license.created
+            payload:
+              type: string
+              description: Serialized JSON:API document for the event subject.
+            status:
+              type: string
+              enum:
+              - DELIVERING
+              - DELIVERED
+              - FAILED
+            lastResponseCode:
+              type: integer
+              nullable: true
+            created:
+              type: string
+              format: date-time
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: 'Admin, environment, product, user, or license bearer token in the `Authorization: Bearer <token>` header.'
+    licenseKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: license-key
+      description: 'A license key passed as `Authorization: License <key>` for license validation and self-service actions.'
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic (email:password) used only to generate a user token.

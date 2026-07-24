@@ -1,0 +1,279 @@
+openapi: 3.0.3
+info:
+  title: Keygen Artifacts Tokens API
+  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  termsOfService: https://keygen.sh/terms/
+  contact:
+    name: Keygen Support
+    url: https://keygen.sh/contact/
+    email: support@keygen.sh
+  license:
+    name: Documentation - CC BY 4.0
+    url: https://keygen.sh/docs/api/
+  version: '1.0'
+servers:
+- url: https://api.keygen.sh/v1/accounts/{account}
+  description: Keygen Cloud (and default self-hosted CE/EE base path)
+  variables:
+    account:
+      default: your-account-id
+      description: Account UUID or slug.
+security:
+- bearerAuth: []
+- licenseKeyAuth: []
+tags:
+- name: Tokens
+  description: Authenticate and manage bearer tokens.
+paths:
+  /tokens:
+    post:
+      operationId: generateToken
+      tags:
+      - Tokens
+      summary: Generate a token
+      description: Generate a new bearer token by authenticating with HTTP Basic (email and password) for a user token, or with a license key for a license token.
+      security:
+      - basicAuth: []
+      responses:
+        '201':
+          description: Token created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TokenDocument'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    get:
+      operationId: listTokens
+      tags:
+      - Tokens
+      summary: List all tokens
+      parameters:
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/PageNumber'
+      responses:
+        '200':
+          description: A list of tokens.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TokenCollectionDocument'
+  /tokens/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveToken
+      tags:
+      - Tokens
+      summary: Retrieve a token
+      responses:
+        '200':
+          description: A token.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TokenDocument'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /tokens/{id}/actions/regenerate:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    put:
+      operationId: regenerateToken
+      tags:
+      - Tokens
+      summary: Regenerate a token
+      responses:
+        '200':
+          description: The regenerated token.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/TokenDocument'
+  /tokens/{id}/actions/revoke:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    delete:
+      operationId: revokeToken
+      tags:
+      - Tokens
+      summary: Revoke a token
+      responses:
+        '204':
+          description: Token revoked.
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
+    PageNumber:
+      name: page[number]
+      in: query
+      required: false
+      description: The page of resources to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    PageSize:
+      name: page[size]
+      in: query
+      required: false
+      description: Number of resources per page (1-100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+  schemas:
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
+        code:
+          type: string
+        source:
+          type: object
+          properties:
+            pointer:
+              type: string
+            parameter:
+              type: string
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    TokenResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: tokens
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            kind:
+              type: string
+              enum:
+              - admin-token
+              - environment-token
+              - product-token
+              - user-token
+              - license-token
+              - activation-token
+            token:
+              type: string
+              description: The raw token value; only returned on generation/regeneration.
+            name:
+              type: string
+              nullable: true
+            expiry:
+              type: string
+              format: date-time
+              nullable: true
+            created:
+              type: string
+              format: date-time
+            updated:
+              type: string
+              format: date-time
+        relationships:
+          type: object
+          properties:
+            bearer:
+              $ref: '#/components/schemas/Relationship'
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+    TokenDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/TokenResource'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    TokenCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TokenResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    ErrorDocument:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      required:
+      - errors
+  responses:
+    Unauthorized:
+      description: Authentication failed.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/ErrorDocument'
+    NotFound:
+      description: Resource not found.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/ErrorDocument'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: 'Admin, environment, product, user, or license bearer token in the `Authorization: Bearer <token>` header.'
+    licenseKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: license-key
+      description: 'A license key passed as `Authorization: License <key>` for license validation and self-service actions.'
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic (email:password) used only to generate a user token.

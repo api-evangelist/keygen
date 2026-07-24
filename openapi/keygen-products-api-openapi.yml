@@ -1,0 +1,172 @@
+openapi: 3.0.3
+info:
+  title: Keygen Artifacts Products API
+  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  termsOfService: https://keygen.sh/terms/
+  contact:
+    name: Keygen Support
+    url: https://keygen.sh/contact/
+    email: support@keygen.sh
+  license:
+    name: Documentation - CC BY 4.0
+    url: https://keygen.sh/docs/api/
+  version: '1.0'
+servers:
+- url: https://api.keygen.sh/v1/accounts/{account}
+  description: Keygen Cloud (and default self-hosted CE/EE base path)
+  variables:
+    account:
+      default: your-account-id
+      description: Account UUID or slug.
+security:
+- bearerAuth: []
+- licenseKeyAuth: []
+tags:
+- name: Products
+  description: Applications being licensed and distributed.
+paths:
+  /products:
+    post:
+      operationId: createProduct
+      tags:
+      - Products
+      summary: Create a product
+      responses:
+        '201':
+          description: Product created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProductDocument'
+    get:
+      operationId: listProducts
+      tags:
+      - Products
+      summary: List all products
+      responses:
+        '200':
+          description: A list of products.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProductCollectionDocument'
+  /products/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveProduct
+      tags:
+      - Products
+      summary: Retrieve a product
+      responses:
+        '200':
+          description: A product.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProductDocument'
+    patch:
+      operationId: updateProduct
+      tags:
+      - Products
+      summary: Update a product
+      responses:
+        '200':
+          description: Product updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ProductDocument'
+    delete:
+      operationId: deleteProduct
+      tags:
+      - Products
+      summary: Delete a product
+      responses:
+        '204':
+          description: Product deleted.
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    ProductResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: products
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+            code:
+              type: string
+              nullable: true
+            distributionStrategy:
+              type: string
+              enum:
+              - LICENSED
+              - OPEN
+              - CLOSED
+            url:
+              type: string
+              nullable: true
+            platforms:
+              type: array
+              items:
+                type: string
+            metadata:
+              type: object
+              additionalProperties: true
+    ProductCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    ProductDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProductResource'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: 'Admin, environment, product, user, or license bearer token in the `Authorization: Bearer <token>` header.'
+    licenseKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: license-key
+      description: 'A license key passed as `Authorization: License <key>` for license validation and self-service actions.'
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic (email:password) used only to generate a user token.

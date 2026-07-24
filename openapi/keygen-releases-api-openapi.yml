@@ -1,0 +1,233 @@
+openapi: 3.0.3
+info:
+  title: Keygen Artifacts Releases API
+  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  termsOfService: https://keygen.sh/terms/
+  contact:
+    name: Keygen Support
+    url: https://keygen.sh/contact/
+    email: support@keygen.sh
+  license:
+    name: Documentation - CC BY 4.0
+    url: https://keygen.sh/docs/api/
+  version: '1.0'
+servers:
+- url: https://api.keygen.sh/v1/accounts/{account}
+  description: Keygen Cloud (and default self-hosted CE/EE base path)
+  variables:
+    account:
+      default: your-account-id
+      description: Account UUID or slug.
+security:
+- bearerAuth: []
+- licenseKeyAuth: []
+tags:
+- name: Releases
+  description: Distributable, semver-tagged releases.
+paths:
+  /releases:
+    post:
+      operationId: createRelease
+      tags:
+      - Releases
+      summary: Create a release
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ReleaseDocument'
+      responses:
+        '201':
+          description: Release created.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReleaseDocument'
+    get:
+      operationId: listReleases
+      tags:
+      - Releases
+      summary: List all releases
+      responses:
+        '200':
+          description: A list of releases.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReleaseCollectionDocument'
+  /releases/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: retrieveRelease
+      tags:
+      - Releases
+      summary: Retrieve a release
+      responses:
+        '200':
+          description: A release.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReleaseDocument'
+    patch:
+      operationId: updateRelease
+      tags:
+      - Releases
+      summary: Update a release
+      responses:
+        '200':
+          description: Release updated.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReleaseDocument'
+    delete:
+      operationId: deleteRelease
+      tags:
+      - Releases
+      summary: Delete a release
+      responses:
+        '204':
+          description: Release deleted.
+  /releases/{id}/actions/upgrade:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: upgradeRelease
+      tags:
+      - Releases
+      summary: Upgrade a release
+      description: Resolve the next available upgrade for the current release on a given channel and platform for auto-update.
+      responses:
+        '200':
+          description: The upgrade release, if any.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ReleaseDocument'
+        '204':
+          description: No upgrade available.
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    ReleaseResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: releases
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            name:
+              type: string
+              nullable: true
+            version:
+              type: string
+              description: Semver version string.
+            channel:
+              type: string
+              enum:
+              - stable
+              - rc
+              - beta
+              - alpha
+              - dev
+            status:
+              type: string
+              enum:
+              - DRAFT
+              - PUBLISHED
+              - YANKED
+            tag:
+              type: string
+              nullable: true
+            metadata:
+              type: object
+              additionalProperties: true
+        relationships:
+          type: object
+          properties:
+            product:
+              $ref: '#/components/schemas/Relationship'
+            artifacts:
+              $ref: '#/components/schemas/Relationship'
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    ReleaseCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    ReleaseDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ReleaseResource'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: 'Admin, environment, product, user, or license bearer token in the `Authorization: Bearer <token>` header.'
+    licenseKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: license-key
+      description: 'A license key passed as `Authorization: License <key>` for license validation and self-service actions.'
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic (email:password) used only to generate a user token.

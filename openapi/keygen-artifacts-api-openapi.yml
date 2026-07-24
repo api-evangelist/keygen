@@ -1,0 +1,210 @@
+openapi: 3.0.3
+info:
+  title: Keygen Artifacts API
+  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  termsOfService: https://keygen.sh/terms/
+  contact:
+    name: Keygen Support
+    url: https://keygen.sh/contact/
+    email: support@keygen.sh
+  license:
+    name: Documentation - CC BY 4.0
+    url: https://keygen.sh/docs/api/
+  version: '1.0'
+servers:
+- url: https://api.keygen.sh/v1/accounts/{account}
+  description: Keygen Cloud (and default self-hosted CE/EE base path)
+  variables:
+    account:
+      default: your-account-id
+      description: Account UUID or slug.
+security:
+- bearerAuth: []
+- licenseKeyAuth: []
+tags:
+- name: Artifacts
+  description: Binary artifacts attached to releases.
+paths:
+  /artifacts:
+    post:
+      operationId: uploadArtifact
+      tags:
+      - Artifacts
+      summary: Upload an artifact
+      description: Create an artifact for a release. Responds with a redirect to a pre-signed URL to which the binary is uploaded.
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              $ref: '#/components/schemas/ArtifactDocument'
+      responses:
+        '201':
+          description: Artifact created; body includes upload URL.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ArtifactDocument'
+    get:
+      operationId: listArtifacts
+      tags:
+      - Artifacts
+      summary: List all artifacts
+      responses:
+        '200':
+          description: A list of artifacts.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ArtifactCollectionDocument'
+  /artifacts/{id}:
+    parameters:
+    - $ref: '#/components/parameters/Id'
+    get:
+      operationId: downloadArtifact
+      tags:
+      - Artifacts
+      summary: Download an artifact
+      description: Retrieve the artifact. Responds with a 303 redirect to a short-lived, pre-signed download URL when the requesting license is entitled.
+      responses:
+        '200':
+          description: Artifact metadata.
+          content:
+            application/vnd.api+json:
+              schema:
+                $ref: '#/components/schemas/ArtifactDocument'
+        '303':
+          description: Redirect to the pre-signed download URL.
+    delete:
+      operationId: yankArtifact
+      tags:
+      - Artifacts
+      summary: Yank an artifact
+      responses:
+        '204':
+          description: Artifact yanked.
+components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    ArtifactResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: artifacts
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            filename:
+              type: string
+            filetype:
+              type: string
+              nullable: true
+            filesize:
+              type: integer
+              nullable: true
+            platform:
+              type: string
+              nullable: true
+            arch:
+              type: string
+              nullable: true
+            signature:
+              type: string
+              nullable: true
+            checksum:
+              type: string
+              nullable: true
+            status:
+              type: string
+              enum:
+              - WAITING
+              - UPLOADED
+              - FAILED
+              - YANKED
+            url:
+              type: string
+              nullable: true
+              description: Pre-signed upload or download URL (transient).
+        relationships:
+          type: object
+          properties:
+            release:
+              $ref: '#/components/schemas/Relationship'
+    ArtifactCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtifactResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    ArtifactDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ArtifactResource'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
+      description: 'Admin, environment, product, user, or license bearer token in the `Authorization: Bearer <token>` header.'
+    licenseKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: license-key
+      description: 'A license key passed as `Authorization: License <key>` for license validation and self-service actions.'
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic (email:password) used only to generate a user token.
