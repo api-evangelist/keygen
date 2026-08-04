@@ -1,0 +1,36 @@
+{
+  "provider": "keygen",
+  "sources": [
+    "keygen-artifacts-api-openapi.yml",
+    "keygen-components-api-openapi.yml",
+    "keygen-entitlements-api-openapi.yml",
+    "keygen-licenses-api-openapi.yml",
+    "keygen-machines-api-openapi.yml",
+    "keygen-policies-api-openapi.yml",
+    "keygen-processes-api-openapi.yml",
+    "keygen-products-api-openapi.yml",
+    "keygen-releases-api-openapi.yml",
+    "keygen-tokens-api-openapi.yml",
+    "keygen-users-api-openapi.yml",
+    "keygen-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "keygen-artifacts-api-openapi.yml",
+    "keygen-components-api-openapi.yml",
+    "keygen-entitlements-api-openapi.yml",
+    "keygen-licenses-api-openapi.yml",
+    "keygen-machines-api-openapi.yml",
+    "keygen-policies-api-openapi.yml",
+    "keygen-processes-api-openapi.yml",
+    "keygen-products-api-openapi.yml",
+    "keygen-releases-api-openapi.yml",
+    "keygen-tokens-api-openapi.yml",
+    "keygen-users-api-openapi.yml",
+    "keygen-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
