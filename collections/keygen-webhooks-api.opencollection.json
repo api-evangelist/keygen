@@ -1,0 +1,137 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Keygen Artifacts Webhooks API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all webhook endpoints",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/webhook-endpoints"
+          },
+          "docs": "List all webhook endpoints"
+        },
+        {
+          "info": {
+            "name": "Create a webhook endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/webhook-endpoints",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a webhook endpoint"
+        },
+        {
+          "info": {
+            "name": "Retrieve a webhook endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/webhook-endpoints/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier (UUID) of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieve a webhook endpoint"
+        },
+        {
+          "info": {
+            "name": "Update a webhook endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/webhook-endpoints/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier (UUID) of the resource."
+              }
+            ]
+          },
+          "docs": "Update a webhook endpoint"
+        },
+        {
+          "info": {
+            "name": "Delete a webhook endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/webhook-endpoints/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier (UUID) of the resource."
+              }
+            ]
+          },
+          "docs": "Delete a webhook endpoint"
+        },
+        {
+          "info": {
+            "name": "List all webhook events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/webhook-events"
+          },
+          "docs": "List all webhook events"
+        },
+        {
+          "info": {
+            "name": "Retry a webhook event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/webhook-events/:id/actions/retry",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier (UUID) of the resource."
+              }
+            ]
+          },
+          "docs": "Retry a webhook event"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

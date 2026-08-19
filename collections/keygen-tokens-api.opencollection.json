@@ -1,0 +1,122 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Keygen Artifacts Tokens API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/tokens",
+            "params": [
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of resources per page (1-100)."
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "The page of resources to return."
+              }
+            ]
+          },
+          "docs": "List all tokens"
+        },
+        {
+          "info": {
+            "name": "Generate a token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/tokens",
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Generate a new bearer token by authenticating with HTTP Basic (email and password) for a user token, or with a license key for a license token."
+        },
+        {
+          "info": {
+            "name": "Retrieve a token",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/tokens/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier (UUID) of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieve a token"
+        },
+        {
+          "info": {
+            "name": "Regenerate a token",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/tokens/:id/actions/regenerate",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier (UUID) of the resource."
+              }
+            ]
+          },
+          "docs": "Regenerate a token"
+        },
+        {
+          "info": {
+            "name": "Revoke a token",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/tokens/:id/actions/revoke",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier (UUID) of the resource."
+              }
+            ]
+          },
+          "docs": "Revoke a token"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

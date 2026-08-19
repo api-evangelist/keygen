@@ -1,0 +1,1139 @@
+{
+  "item": [
+    {
+      "id": "981ca56d-be4f-4603-a8f9-cb18bb460d01",
+      "name": "Licenses",
+      "description": {
+        "content": "Issue, validate, and manage license keys.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d8007bc4-e278-436b-936d-ae4bf2480c91",
+          "name": "Create a license",
+          "request": {
+            "name": "Create a license",
+            "description": {},
+            "url": {
+              "path": [
+                "licenses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.api+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"key\": \"<string>\",\n      \"expiry\": \"<dateTime>\",\n      \"status\": \"<string>\",\n      \"uses\": \"<integer>\",\n      \"maxMachines\": \"<integer>\",\n      \"maxCores\": \"<integer>\",\n      \"protected\": \"<boolean>\",\n      \"suspended\": \"<boolean>\",\n      \"metadata\": {\n        \"key_0\": 4017.088763070782,\n        \"key_1\": true,\n        \"key_2\": 8857\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"account\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"policy\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"machines\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"entitlements\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ea1b30b9-0900-4073-961e-e4ce0e849e25",
+              "name": "License created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "licenses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"licenses\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"key\": \"<string>\",\n      \"expiry\": \"<dateTime>\",\n      \"status\": \"<string>\",\n      \"uses\": \"<integer>\",\n      \"maxMachines\": \"<integer>\",\n      \"maxCores\": \"<integer>\",\n      \"protected\": \"<boolean>\",\n      \"suspended\": \"<boolean>\",\n      \"metadata\": {\n        \"key_0\": true\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"account\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"policy\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"machines\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"entitlements\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"licenses\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"key\": \"<string>\",\n      \"expiry\": \"<dateTime>\",\n      \"status\": \"<string>\",\n      \"uses\": \"<integer>\",\n      \"maxMachines\": \"<integer>\",\n      \"maxCores\": \"<integer>\",\n      \"protected\": \"<boolean>\",\n      \"suspended\": \"<boolean>\",\n      \"metadata\": {\n        \"key_0\": true\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"account\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"policy\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"machines\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"entitlements\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1694ed9e-818c-4665-91bb-5710aa0df396",
+          "name": "List all licenses",
+          "request": {
+            "name": "List all licenses",
+            "description": {},
+            "url": {
+              "path": [
+                "licenses"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "10",
+                  "description": "Number of resources per page (1-100)."
+                },
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "1",
+                  "description": "The page of resources to return."
+                },
+                {
+                  "disabled": false,
+                  "key": "status",
+                  "value": "<string>",
+                  "description": "Filter by license status."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0003ccc6-607a-49a5-a37f-90bddd29fe61",
+              "name": "A list of licenses.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "licenses"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[size]",
+                      "value": "10"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "1"
+                    },
+                    {
+                      "key": "status",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"type\": \"licenses\",\n      \"id\": \"<string>\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"key\": \"<string>\",\n        \"expiry\": \"<dateTime>\",\n        \"status\": \"<string>\",\n        \"uses\": \"<integer>\",\n        \"maxMachines\": \"<integer>\",\n        \"maxCores\": \"<integer>\",\n        \"protected\": \"<boolean>\",\n        \"suspended\": \"<boolean>\",\n        \"metadata\": {\n          \"key_0\": true,\n          \"key_1\": \"string\",\n          \"key_2\": 2330.543364256956,\n          \"key_3\": 9779.599181447877\n        },\n        \"created\": \"<dateTime>\",\n        \"updated\": \"<dateTime>\"\n      },\n      \"relationships\": {\n        \"account\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"product\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"policy\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"owner\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"machines\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"entitlements\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        }\n      }\n    },\n    {\n      \"type\": \"licenses\",\n      \"id\": \"<string>\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"key\": \"<string>\",\n        \"expiry\": \"<dateTime>\",\n        \"status\": \"<string>\",\n        \"uses\": \"<integer>\",\n        \"maxMachines\": \"<integer>\",\n        \"maxCores\": \"<integer>\",\n        \"protected\": \"<boolean>\",\n        \"suspended\": \"<boolean>\",\n        \"metadata\": {\n          \"key_0\": 6339.273585974414\n        },\n        \"created\": \"<dateTime>\",\n        \"updated\": \"<dateTime>\"\n      },\n      \"relationships\": {\n        \"account\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"product\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"policy\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"owner\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"machines\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"entitlements\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        }\n      }\n    }\n  ],\n  \"links\": {\n    \"self\": \"string\",\n    \"first\": \"string\",\n    \"prev\": \"string\",\n    \"next\": \"string\",\n    \"last\": \"string\"\n  },\n  \"meta\": {\n    \"count\": 8239\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "049a1947-c4ae-4484-b870-246e9648215a",
+          "name": "Retrieve a license",
+          "request": {
+            "name": "Retrieve a license",
+            "description": {},
+            "url": {
+              "path": [
+                "licenses",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "407f2566-5868-431b-ba8e-39a3ea599d83",
+              "name": "A license.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "licenses",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"licenses\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"key\": \"<string>\",\n      \"expiry\": \"<dateTime>\",\n      \"status\": \"<string>\",\n      \"uses\": \"<integer>\",\n      \"maxMachines\": \"<integer>\",\n      \"maxCores\": \"<integer>\",\n      \"protected\": \"<boolean>\",\n      \"suspended\": \"<boolean>\",\n      \"metadata\": {\n        \"key_0\": true\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"account\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"policy\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"machines\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"entitlements\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4dc69e15-346c-4901-9ba5-54ecac64b0e9",
+              "name": "Resource not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "licenses",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"code\": \"string\",\n      \"source\": {\n        \"pointer\": \"string\",\n        \"parameter\": \"string\"\n      }\n    },\n    {\n      \"title\": \"string\",\n      \"detail\": \"string\",\n      \"code\": \"string\",\n      \"source\": {\n        \"pointer\": \"string\",\n        \"parameter\": \"string\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2cdd8ed8-94c7-4433-bf47-c7102adfc66e",
+          "name": "Update a license",
+          "request": {
+            "name": "Update a license",
+            "description": {},
+            "url": {
+              "path": [
+                "licenses",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.api+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"key\": \"<string>\",\n      \"expiry\": \"<dateTime>\",\n      \"status\": \"<string>\",\n      \"uses\": \"<integer>\",\n      \"maxMachines\": \"<integer>\",\n      \"maxCores\": \"<integer>\",\n      \"protected\": \"<boolean>\",\n      \"suspended\": \"<boolean>\",\n      \"metadata\": {\n        \"key_0\": 4017.088763070782,\n        \"key_1\": true,\n        \"key_2\": 8857\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"account\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"policy\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"machines\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"entitlements\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a5be5e5e-84a8-4ead-8862-cec21781fda8",
+              "name": "License updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "licenses",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"licenses\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"key\": \"<string>\",\n      \"expiry\": \"<dateTime>\",\n      \"status\": \"<string>\",\n      \"uses\": \"<integer>\",\n      \"maxMachines\": \"<integer>\",\n      \"maxCores\": \"<integer>\",\n      \"protected\": \"<boolean>\",\n      \"suspended\": \"<boolean>\",\n      \"metadata\": {\n        \"key_0\": true\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"account\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"policy\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"machines\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"entitlements\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"licenses\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"key\": \"<string>\",\n      \"expiry\": \"<dateTime>\",\n      \"status\": \"<string>\",\n      \"uses\": \"<integer>\",\n      \"maxMachines\": \"<integer>\",\n      \"maxCores\": \"<integer>\",\n      \"protected\": \"<boolean>\",\n      \"suspended\": \"<boolean>\",\n      \"metadata\": {\n        \"key_0\": true\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"account\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"policy\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"machines\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"entitlements\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fa05968c-4ba0-4a3c-8664-b8634b158beb",
+          "name": "Delete a license",
+          "request": {
+            "name": "Delete a license",
+            "description": {},
+            "url": {
+              "path": [
+                "licenses",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "21654776-0399-4fb4-8651-71495a9758bb",
+              "name": "License deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "licenses",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "45f9f129-b798-453d-ad5c-edd47ac40c58",
+          "name": "Validate a license (by ID)",
+          "request": {
+            "name": "Validate a license (by ID)",
+            "description": {
+              "content": "Validate a license by ID, optionally scoped to a machine fingerprint, product, or entitlements. Returns a `meta` object with `valid`, `detail`, and `code`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "licenses",
+                ":id",
+                "actions",
+                "validate"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.api+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"meta\": {\n    \"scope\": {\n      \"fingerprint\": \"<string>\",\n      \"entitlements\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "144688db-9969-48f2-abcf-29eb5d99a490",
+              "name": "A validation result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "licenses",
+                    ":id",
+                    "actions",
+                    "validate"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"meta\": {\n    \"scope\": {\n      \"fingerprint\": \"<string>\",\n      \"entitlements\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"licenses\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"key\": \"<string>\",\n      \"expiry\": \"<dateTime>\",\n      \"status\": \"<string>\",\n      \"uses\": \"<integer>\",\n      \"maxMachines\": \"<integer>\",\n      \"maxCores\": \"<integer>\",\n      \"protected\": \"<boolean>\",\n      \"suspended\": \"<boolean>\",\n      \"metadata\": {\n        \"key_0\": 4379,\n        \"key_1\": 907,\n        \"key_2\": \"string\"\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"account\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"policy\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"machines\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"entitlements\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  },\n  \"meta\": {\n    \"ts\": \"1980-09-23T09:46:25.295Z\",\n    \"valid\": false,\n    \"detail\": \"string\",\n    \"code\": \"VALID\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "03628816-1f14-414e-b9ba-7f14e9bcd4d4",
+          "name": "Validate a license (by key)",
+          "request": {
+            "name": "Validate a license (by key)",
+            "description": {
+              "content": "Validate a license using its key without prior authentication - the primary offline/online validation entry point for clients.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "licenses",
+                "actions",
+                "validate-key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.api+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"meta\": {\n    \"key\": \"<string>\",\n    \"scope\": {\n      \"fingerprint\": \"<string>\",\n      \"product\": \"<string>\",\n      \"entitlements\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "28853581-8de4-4178-9229-44e38ae47543",
+              "name": "A validation result.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "licenses",
+                    "actions",
+                    "validate-key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"meta\": {\n    \"key\": \"<string>\",\n    \"scope\": {\n      \"fingerprint\": \"<string>\",\n      \"product\": \"<string>\",\n      \"entitlements\": [\n        \"<string>\",\n        \"<string>\"\n      ]\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"licenses\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"key\": \"<string>\",\n      \"expiry\": \"<dateTime>\",\n      \"status\": \"<string>\",\n      \"uses\": \"<integer>\",\n      \"maxMachines\": \"<integer>\",\n      \"maxCores\": \"<integer>\",\n      \"protected\": \"<boolean>\",\n      \"suspended\": \"<boolean>\",\n      \"metadata\": {\n        \"key_0\": 4379,\n        \"key_1\": 907,\n        \"key_2\": \"string\"\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"account\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"policy\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"machines\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"entitlements\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  },\n  \"meta\": {\n    \"ts\": \"1980-09-23T09:46:25.295Z\",\n    \"valid\": false,\n    \"detail\": \"string\",\n    \"code\": \"VALID\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "22dfb673-8792-4a73-9a85-f998d9adb0bd",
+          "name": "Check-out a license",
+          "request": {
+            "name": "Check-out a license",
+            "description": {
+              "content": "Check out a signed, encrypted license file for offline validation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "licenses",
+                ":id",
+                "actions",
+                "check-out"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "992fc0aa-02fb-4cea-998c-a8dc98488625",
+              "name": "A license file.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "licenses",
+                    ":id",
+                    "actions",
+                    "check-out"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"license-files\",\n    \"attributes\": {\n      \"certificate\": \"string\",\n      \"encrypted\": false,\n      \"ttl\": 3446,\n      \"expiry\": \"1989-11-18T16:57:06.833Z\"\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "73ea9b0f-5c0a-42a1-b162-f52f9ad7beb8",
+          "name": "Check-in a license",
+          "request": {
+            "name": "Check-in a license",
+            "description": {
+              "content": "Perform a required license check-in to reset the check-in window.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "licenses",
+                ":id",
+                "actions",
+                "check-in"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9750a191-0366-426d-81b1-9f8123c50202",
+              "name": "The checked-in license.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "licenses",
+                    ":id",
+                    "actions",
+                    "check-in"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"licenses\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"key\": \"<string>\",\n      \"expiry\": \"<dateTime>\",\n      \"status\": \"<string>\",\n      \"uses\": \"<integer>\",\n      \"maxMachines\": \"<integer>\",\n      \"maxCores\": \"<integer>\",\n      \"protected\": \"<boolean>\",\n      \"suspended\": \"<boolean>\",\n      \"metadata\": {\n        \"key_0\": true\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"account\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"policy\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"machines\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"entitlements\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Account UUID or slug.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "your-account-id",
+      "key": "account"
+    },
+    {
+      "type": "string",
+      "value": "https://api.keygen.sh/v1/accounts/{{account}}",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "348fd98c-3466-4709-9c56-2ab61fa695b0",
+    "name": "Keygen Artifacts Licenses API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account's UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.\n\nContact Support:\n Name: Keygen Support\n Email: support@keygen.sh",
+      "type": "text/plain"
+    }
+  }
+}

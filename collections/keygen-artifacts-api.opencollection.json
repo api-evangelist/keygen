@@ -1,0 +1,88 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Keygen Artifacts API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Artifacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all artifacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/artifacts"
+          },
+          "docs": "List all artifacts"
+        },
+        {
+          "info": {
+            "name": "Upload an artifact",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/artifacts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an artifact for a release. Responds with a redirect to a pre-signed URL to which the binary is uploaded."
+        },
+        {
+          "info": {
+            "name": "Download an artifact",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/artifacts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier (UUID) of the resource."
+              }
+            ]
+          },
+          "docs": "Retrieve the artifact. Responds with a 303 redirect to a short-lived, pre-signed download URL when the requesting license is entitled."
+        },
+        {
+          "info": {
+            "name": "Yank an artifact",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/artifacts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier (UUID) of the resource."
+              }
+            ]
+          },
+          "docs": "Yank an artifact"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

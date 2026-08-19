@@ -1,0 +1,722 @@
+{
+  "item": [
+    {
+      "id": "39d420a6-eaee-4e3b-9cb7-3fca507b3dec",
+      "name": "Releases",
+      "description": {
+        "content": "Distributable, semver-tagged releases.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d2f05bc0-3553-4113-8b4a-01d4a2df3439",
+          "name": "Create a release",
+          "request": {
+            "name": "Create a release",
+            "description": {},
+            "url": {
+              "path": [
+                "releases"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.api+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"channel\": \"<string>\",\n      \"status\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"metadata\": {\n        \"key_0\": 5656.35257730651,\n        \"key_1\": 6567.687189224993,\n        \"key_2\": 9572.429305386118\n      }\n    },\n    \"relationships\": {\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"artifacts\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "60b02123-ce1a-4f07-98a0-d4e5885edcb0",
+              "name": "Release created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "releases"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"releases\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"channel\": \"<string>\",\n      \"status\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"metadata\": {\n        \"key_0\": false,\n        \"key_1\": 644.7571538390906,\n        \"key_2\": 3703,\n        \"key_3\": 6497.457546872149\n      }\n    },\n    \"relationships\": {\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"artifacts\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"releases\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"channel\": \"<string>\",\n      \"status\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"metadata\": {\n        \"key_0\": false,\n        \"key_1\": 644.7571538390906,\n        \"key_2\": 3703,\n        \"key_3\": 6497.457546872149\n      }\n    },\n    \"relationships\": {\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"artifacts\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "64dcf465-de63-4bf4-8d95-02e966985e67",
+          "name": "List all releases",
+          "request": {
+            "name": "List all releases",
+            "description": {},
+            "url": {
+              "path": [
+                "releases"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7468ceee-e5df-4c09-be8f-a793472cf0d8",
+              "name": "A list of releases.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "releases"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"type\": \"releases\",\n      \"id\": \"<string>\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"version\": \"<string>\",\n        \"channel\": \"<string>\",\n        \"status\": \"<string>\",\n        \"tag\": \"<string>\",\n        \"metadata\": {\n          \"key_0\": \"string\",\n          \"key_1\": 8944\n        }\n      },\n      \"relationships\": {\n        \"product\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"artifacts\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        }\n      }\n    },\n    {\n      \"type\": \"releases\",\n      \"id\": \"<string>\",\n      \"attributes\": {\n        \"name\": \"<string>\",\n        \"version\": \"<string>\",\n        \"channel\": \"<string>\",\n        \"status\": \"<string>\",\n        \"tag\": \"<string>\",\n        \"metadata\": {\n          \"key_0\": \"string\"\n        }\n      },\n      \"relationships\": {\n        \"product\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"artifacts\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        }\n      }\n    }\n  ],\n  \"links\": {\n    \"self\": \"string\",\n    \"first\": \"string\",\n    \"prev\": \"string\",\n    \"next\": \"string\",\n    \"last\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d5e609d0-ca82-46f1-907c-339f061721bb",
+          "name": "Retrieve a release",
+          "request": {
+            "name": "Retrieve a release",
+            "description": {},
+            "url": {
+              "path": [
+                "releases",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "04a450f9-fd58-4144-b3f0-b7ff582cd6ff",
+              "name": "A release.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "releases",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"releases\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"channel\": \"<string>\",\n      \"status\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"metadata\": {\n        \"key_0\": false,\n        \"key_1\": 644.7571538390906,\n        \"key_2\": 3703,\n        \"key_3\": 6497.457546872149\n      }\n    },\n    \"relationships\": {\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"artifacts\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d767a453-1dae-4b73-aa3e-dc2e93dfe101",
+          "name": "Update a release",
+          "request": {
+            "name": "Update a release",
+            "description": {},
+            "url": {
+              "path": [
+                "releases",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "37810b6e-a496-46a8-9fa9-abf8f8e20a3a",
+              "name": "Release updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "releases",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"releases\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"channel\": \"<string>\",\n      \"status\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"metadata\": {\n        \"key_0\": false,\n        \"key_1\": 644.7571538390906,\n        \"key_2\": 3703,\n        \"key_3\": 6497.457546872149\n      }\n    },\n    \"relationships\": {\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"artifacts\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0fa3c6df-8104-48ef-9db6-bed3c4c4e49d",
+          "name": "Delete a release",
+          "request": {
+            "name": "Delete a release",
+            "description": {},
+            "url": {
+              "path": [
+                "releases",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "74693e13-e30e-46c9-8da6-9aeaa74384f9",
+              "name": "Release deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "releases",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9ebbc458-c273-44f6-9f71-bcc588dc3ae8",
+          "name": "Upgrade a release",
+          "request": {
+            "name": "Upgrade a release",
+            "description": {
+              "content": "Resolve the next available upgrade for the current release on a given channel and platform for auto-update.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "releases",
+                ":id",
+                "actions",
+                "upgrade"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "07ea56b3-e740-476c-ac96-f99f908f3e2e",
+              "name": "The upgrade release, if any.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "releases",
+                    ":id",
+                    "actions",
+                    "upgrade"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"releases\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"name\": \"<string>\",\n      \"version\": \"<string>\",\n      \"channel\": \"<string>\",\n      \"status\": \"<string>\",\n      \"tag\": \"<string>\",\n      \"metadata\": {\n        \"key_0\": false,\n        \"key_1\": 644.7571538390906,\n        \"key_2\": 3703,\n        \"key_3\": 6497.457546872149\n      }\n    },\n    \"relationships\": {\n      \"product\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"artifacts\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c9fd4f8-8e82-4795-bd3d-ad858b16e268",
+              "name": "No upgrade available.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "releases",
+                    ":id",
+                    "actions",
+                    "upgrade"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Account UUID or slug.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "your-account-id",
+      "key": "account"
+    },
+    {
+      "type": "string",
+      "value": "https://api.keygen.sh/v1/accounts/{{account}}",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a23c0c28-a308-439b-83ad-856eb1098221",
+    "name": "Keygen Artifacts Releases API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account's UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.\n\nContact Support:\n Name: Keygen Support\n Email: support@keygen.sh",
+      "type": "text/plain"
+    }
+  }
+}

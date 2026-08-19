@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Keygen Artifacts Processes API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Processes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all processes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/processes"
+          },
+          "docs": "List all processes"
+        },
+        {
+          "info": {
+            "name": "Spawn a process",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/processes",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Spawn a process"
+        },
+        {
+          "info": {
+            "name": "Ping a process (heartbeat)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.keygen.sh/v1/accounts/{account}/processes/:id/actions/ping",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The identifier (UUID) of the resource."
+              }
+            ]
+          },
+          "docs": "Ping a process (heartbeat)"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

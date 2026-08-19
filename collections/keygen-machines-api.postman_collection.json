@@ -1,0 +1,712 @@
+{
+  "item": [
+    {
+      "id": "04ed0832-dbb1-41ef-8b01-16ef78a7a723",
+      "name": "Machines",
+      "description": {
+        "content": "Activate and manage node-locked machines.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e2a742bb-366b-43b1-b863-a63ebfe72905",
+          "name": "Activate a machine",
+          "request": {
+            "name": "Activate a machine",
+            "description": {
+              "content": "Activate a machine for a license by hardware fingerprint. Fails if the license has reached its policy machine limit.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "machines"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.api+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"fingerprint\": \"<string>\",\n      \"name\": \"<string>\",\n      \"platform\": \"<string>\",\n      \"hostname\": \"<string>\",\n      \"ip\": \"<string>\",\n      \"cores\": \"<integer>\",\n      \"heartbeatStatus\": \"<string>\",\n      \"heartbeatDuration\": \"<integer>\",\n      \"metadata\": {\n        \"key_0\": 3589,\n        \"key_1\": 5524\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"license\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"components\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cfa214aa-5e4c-4a77-b04a-6ae93b13d6a8",
+              "name": "Machine activated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "machines"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"machines\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"fingerprint\": \"<string>\",\n      \"name\": \"<string>\",\n      \"platform\": \"<string>\",\n      \"hostname\": \"<string>\",\n      \"ip\": \"<string>\",\n      \"cores\": \"<integer>\",\n      \"heartbeatStatus\": \"<string>\",\n      \"heartbeatDuration\": \"<integer>\",\n      \"metadata\": {\n        \"key_0\": false\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"license\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"components\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"machines\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"fingerprint\": \"<string>\",\n      \"name\": \"<string>\",\n      \"platform\": \"<string>\",\n      \"hostname\": \"<string>\",\n      \"ip\": \"<string>\",\n      \"cores\": \"<integer>\",\n      \"heartbeatStatus\": \"<string>\",\n      \"heartbeatDuration\": \"<integer>\",\n      \"metadata\": {\n        \"key_0\": false\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"license\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"components\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f9082f78-d621-43ce-bec2-8899ae0df1d9",
+          "name": "List all machines",
+          "request": {
+            "name": "List all machines",
+            "description": {},
+            "url": {
+              "path": [
+                "machines"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page[size]",
+                  "value": "10",
+                  "description": "Number of resources per page (1-100)."
+                },
+                {
+                  "disabled": false,
+                  "key": "page[number]",
+                  "value": "1",
+                  "description": "The page of resources to return."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b02423ee-d6b8-48ae-a29f-d9ce968acab5",
+              "name": "A list of machines.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "machines"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page[size]",
+                      "value": "10"
+                    },
+                    {
+                      "key": "page[number]",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"type\": \"machines\",\n      \"id\": \"<string>\",\n      \"attributes\": {\n        \"fingerprint\": \"<string>\",\n        \"name\": \"<string>\",\n        \"platform\": \"<string>\",\n        \"hostname\": \"<string>\",\n        \"ip\": \"<string>\",\n        \"cores\": \"<integer>\",\n        \"heartbeatStatus\": \"<string>\",\n        \"heartbeatDuration\": \"<integer>\",\n        \"metadata\": {\n          \"key_0\": 3568.409582340174,\n          \"key_1\": \"string\",\n          \"key_2\": 1167\n        },\n        \"created\": \"<dateTime>\",\n        \"updated\": \"<dateTime>\"\n      },\n      \"relationships\": {\n        \"license\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"owner\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"components\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        }\n      }\n    },\n    {\n      \"type\": \"machines\",\n      \"id\": \"<string>\",\n      \"attributes\": {\n        \"fingerprint\": \"<string>\",\n        \"name\": \"<string>\",\n        \"platform\": \"<string>\",\n        \"hostname\": \"<string>\",\n        \"ip\": \"<string>\",\n        \"cores\": \"<integer>\",\n        \"heartbeatStatus\": \"<string>\",\n        \"heartbeatDuration\": \"<integer>\",\n        \"metadata\": {\n          \"key_0\": \"string\",\n          \"key_1\": false,\n          \"key_2\": 5308.569992013671\n        },\n        \"created\": \"<dateTime>\",\n        \"updated\": \"<dateTime>\"\n      },\n      \"relationships\": {\n        \"license\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"owner\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        },\n        \"components\": {\n          \"data\": {\n            \"type\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            },\n            \"id\": {\n              \"value\": \"<Error: Too many levels of nesting to fake this schema>\"\n            }\n          },\n          \"links\": {\n            \"related\": \"<string>\"\n          }\n        }\n      }\n    }\n  ],\n  \"links\": {\n    \"self\": \"string\",\n    \"first\": \"string\",\n    \"prev\": \"string\",\n    \"next\": \"string\",\n    \"last\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6f29b8aa-5f15-48ba-a704-f22fcf02c90a",
+          "name": "Retrieve a machine",
+          "request": {
+            "name": "Retrieve a machine",
+            "description": {},
+            "url": {
+              "path": [
+                "machines",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ae970456-0baf-4268-af6a-dbc2d79a1456",
+              "name": "A machine.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "machines",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"machines\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"fingerprint\": \"<string>\",\n      \"name\": \"<string>\",\n      \"platform\": \"<string>\",\n      \"hostname\": \"<string>\",\n      \"ip\": \"<string>\",\n      \"cores\": \"<integer>\",\n      \"heartbeatStatus\": \"<string>\",\n      \"heartbeatDuration\": \"<integer>\",\n      \"metadata\": {\n        \"key_0\": false\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"license\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"components\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cee0ce14-e8fe-4ef5-a561-954940dfff57",
+          "name": "Update a machine",
+          "request": {
+            "name": "Update a machine",
+            "description": {},
+            "url": {
+              "path": [
+                "machines",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/vnd.api+json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": {\n    \"type\": \"<string>\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"fingerprint\": \"<string>\",\n      \"name\": \"<string>\",\n      \"platform\": \"<string>\",\n      \"hostname\": \"<string>\",\n      \"ip\": \"<string>\",\n      \"cores\": \"<integer>\",\n      \"heartbeatStatus\": \"<string>\",\n      \"heartbeatDuration\": \"<integer>\",\n      \"metadata\": {\n        \"key_0\": 3589,\n        \"key_1\": 5524\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"license\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"components\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "529d2699-6029-4326-b3e3-9a65c99b6eee",
+              "name": "Machine updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "machines",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"data\": {\n    \"type\": \"machines\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"fingerprint\": \"<string>\",\n      \"name\": \"<string>\",\n      \"platform\": \"<string>\",\n      \"hostname\": \"<string>\",\n      \"ip\": \"<string>\",\n      \"cores\": \"<integer>\",\n      \"heartbeatStatus\": \"<string>\",\n      \"heartbeatDuration\": \"<integer>\",\n      \"metadata\": {\n        \"key_0\": false\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"license\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"components\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"machines\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"fingerprint\": \"<string>\",\n      \"name\": \"<string>\",\n      \"platform\": \"<string>\",\n      \"hostname\": \"<string>\",\n      \"ip\": \"<string>\",\n      \"cores\": \"<integer>\",\n      \"heartbeatStatus\": \"<string>\",\n      \"heartbeatDuration\": \"<integer>\",\n      \"metadata\": {\n        \"key_0\": false\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"license\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"components\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f77b09a4-4c98-40d0-86e7-d20aee7a17a3",
+          "name": "Deactivate a machine",
+          "request": {
+            "name": "Deactivate a machine",
+            "description": {},
+            "url": {
+              "path": [
+                "machines",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fdd8ffb3-7ec5-4385-9740-92aa5029bf21",
+              "name": "Machine deactivated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "machines",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7fdb8126-f7d3-4ccb-a4aa-a935b596d7a4",
+          "name": "Ping a machine (heartbeat)",
+          "request": {
+            "name": "Ping a machine (heartbeat)",
+            "description": {
+              "content": "Send a heartbeat ping to keep a machine's activation alive.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "machines",
+                ":id",
+                "actions",
+                "ping"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "id",
+                  "description": "(Required) The identifier (UUID) of the resource."
+                },
+                {
+                  "description": "Account UUID or slug.",
+                  "type": "any",
+                  "value": "{{account}}",
+                  "key": "account"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/vnd.api+json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "463d1672-fb46-4cf0-8d39-98ed820d45df",
+              "name": "The pinged machine.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "machines",
+                    ":id",
+                    "actions",
+                    "ping"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "id",
+                      "description": "(Required) The identifier (UUID) of the resource."
+                    },
+                    {
+                      "description": "Account UUID or slug.",
+                      "type": "any",
+                      "value": "{{account}}",
+                      "key": "account"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/vnd.api+json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/vnd.api+json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"type\": \"machines\",\n    \"id\": \"<string>\",\n    \"attributes\": {\n      \"fingerprint\": \"<string>\",\n      \"name\": \"<string>\",\n      \"platform\": \"<string>\",\n      \"hostname\": \"<string>\",\n      \"ip\": \"<string>\",\n      \"cores\": \"<integer>\",\n      \"heartbeatStatus\": \"<string>\",\n      \"heartbeatDuration\": \"<integer>\",\n      \"metadata\": {\n        \"key_0\": false\n      },\n      \"created\": \"<dateTime>\",\n      \"updated\": \"<dateTime>\"\n    },\n    \"relationships\": {\n      \"license\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"owner\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      },\n      \"components\": {\n        \"data\": {\n          \"type\": \"<string>\",\n          \"id\": \"<string>\"\n        },\n        \"links\": {\n          \"related\": \"<string>\"\n        }\n      }\n    }\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Account UUID or slug.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "your-account-id",
+      "key": "account"
+    },
+    {
+      "type": "string",
+      "value": "https://api.keygen.sh/v1/accounts/{{account}}",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b2d91b26-fd82-4888-8771-adb9c2d83fa4",
+    "name": "Keygen Artifacts Machines API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account's UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.\n\nContact Support:\n Name: Keygen Support\n Email: support@keygen.sh",
+      "type": "text/plain"
+    }
+  }
+}
