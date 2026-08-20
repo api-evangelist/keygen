@@ -305,6 +305,8 @@ apis:
   humanURL: https://keygen.sh/docs/api/licenses/
   baseURL: https://api.keygen.sh/v1/accounts/{account}
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
@@ -419,6 +421,8 @@ apis:
   humanURL: https://keygen.sh/docs/api/licenses/
   baseURL: https://api.keygen.sh/v1/accounts/{account}
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -457,6 +461,8 @@ apis:
   humanURL: https://keygen.sh/docs/api/licenses/
   baseURL: https://api.keygen.sh/v1/accounts/{account}
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
