@@ -8,6 +8,18 @@ description: Keygen is a software licensing, entitlements, and distribution API 
   releases and artifacts for auto-updates. Keygen ships as the source-available,
   self-hostable Keygen CE / EE and as the managed Keygen Cloud, exposing a JSON:API
   interface under api.keygen.sh.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
