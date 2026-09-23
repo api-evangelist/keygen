@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Keygen Artifacts API
-  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  description: Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API.
   termsOfService: https://keygen.sh/terms/
   contact:
     name: Keygen Support
@@ -84,72 +84,7 @@ paths:
         '204':
           description: Artifact yanked.
 components:
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
   schemas:
-    ArtifactResource:
-      type: object
-      properties:
-        type:
-          type: string
-          example: artifacts
-        id:
-          type: string
-        attributes:
-          type: object
-          properties:
-            filename:
-              type: string
-            filetype:
-              type: string
-              nullable: true
-            filesize:
-              type: integer
-              nullable: true
-            platform:
-              type: string
-              nullable: true
-            arch:
-              type: string
-              nullable: true
-            signature:
-              type: string
-              nullable: true
-            checksum:
-              type: string
-              nullable: true
-            status:
-              type: string
-              enum:
-              - WAITING
-              - UPLOADED
-              - FAILED
-              - YANKED
-            url:
-              type: string
-              nullable: true
-              description: Pre-signed upload or download URL (transient).
-        relationships:
-          type: object
-          properties:
-            release:
-              $ref: '#/components/schemas/Relationship'
-    ArtifactCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ArtifactResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
     Relationship:
       type: object
       properties:
@@ -165,16 +100,65 @@ components:
           properties:
             related:
               type: string
-    ResourceIdentifier:
+    ArtifactDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ArtifactResource'
+    ArtifactResource:
       type: object
       properties:
         type:
           type: string
+          example: artifacts
         id:
           type: string
-      required:
-      - type
-      - id
+        attributes:
+          type: object
+          properties:
+            filename:
+              type: string
+            filetype:
+              type:
+              - string
+              - 'null'
+            filesize:
+              type:
+              - integer
+              - 'null'
+            platform:
+              type:
+              - string
+              - 'null'
+            arch:
+              type:
+              - string
+              - 'null'
+            signature:
+              type:
+              - string
+              - 'null'
+            checksum:
+              type:
+              - string
+              - 'null'
+            status:
+              type: string
+              enum:
+              - WAITING
+              - UPLOADED
+              - FAILED
+              - YANKED
+            url:
+              type:
+              - string
+              - 'null'
+              description: Pre-signed upload or download URL (transient).
+        relationships:
+          type: object
+          properties:
+            release:
+              $ref: '#/components/schemas/Relationship'
     PageLinks:
       type: object
       properties:
@@ -188,11 +172,34 @@ components:
           type: string
         last:
           type: string
-    ArtifactDocument:
+    ArtifactCollectionDocument:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/ArtifactResource'
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtifactResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

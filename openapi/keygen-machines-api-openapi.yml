@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Keygen Artifacts Machines API
-  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  title: Keygen Machines API
+  description: Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API.
   termsOfService: https://keygen.sh/terms/
   contact:
     name: Keygen Support
@@ -118,15 +118,122 @@ paths:
               schema:
                 $ref: '#/components/schemas/MachineDocument'
 components:
+  schemas:
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    MachineResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: machines
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            fingerprint:
+              type: string
+            name:
+              type:
+              - string
+              - 'null'
+            platform:
+              type:
+              - string
+              - 'null'
+            hostname:
+              type:
+              - string
+              - 'null'
+            ip:
+              type:
+              - string
+              - 'null'
+            cores:
+              type:
+              - integer
+              - 'null'
+            heartbeatStatus:
+              type: string
+              enum:
+              - NOT_STARTED
+              - ALIVE
+              - DEAD
+              - RESURRECTED
+            heartbeatDuration:
+              type:
+              - integer
+              - 'null'
+            metadata:
+              type: object
+              additionalProperties: true
+            created:
+              type: string
+              format: date-time
+            updated:
+              type: string
+              format: date-time
+        relationships:
+          type: object
+          properties:
+            license:
+              $ref: '#/components/schemas/Relationship'
+            owner:
+              $ref: '#/components/schemas/Relationship'
+            components:
+              $ref: '#/components/schemas/Relationship'
+    MachineCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/MachineResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+    MachineDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/MachineResource'
   parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
     PageSize:
       name: page[size]
       in: query
@@ -146,115 +253,14 @@ components:
         type: integer
         minimum: 1
         default: 1
-  schemas:
-    MachineDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/MachineResource'
-    Relationship:
-      type: object
-      properties:
-        data:
-          oneOf:
-          - $ref: '#/components/schemas/ResourceIdentifier'
-          - type: array
-            items:
-              $ref: '#/components/schemas/ResourceIdentifier'
-          - type: 'null'
-        links:
-          type: object
-          properties:
-            related:
-              type: string
-    ResourceIdentifier:
-      type: object
-      properties:
-        type:
-          type: string
-        id:
-          type: string
-      required:
-      - type
-      - id
-    MachineCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/MachineResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
-    MachineResource:
-      type: object
-      properties:
-        type:
-          type: string
-          example: machines
-        id:
-          type: string
-        attributes:
-          type: object
-          properties:
-            fingerprint:
-              type: string
-            name:
-              type: string
-              nullable: true
-            platform:
-              type: string
-              nullable: true
-            hostname:
-              type: string
-              nullable: true
-            ip:
-              type: string
-              nullable: true
-            cores:
-              type: integer
-              nullable: true
-            heartbeatStatus:
-              type: string
-              enum:
-              - NOT_STARTED
-              - ALIVE
-              - DEAD
-              - RESURRECTED
-            heartbeatDuration:
-              type: integer
-              nullable: true
-            metadata:
-              type: object
-              additionalProperties: true
-            created:
-              type: string
-              format: date-time
-            updated:
-              type: string
-              format: date-time
-        relationships:
-          type: object
-          properties:
-            license:
-              $ref: '#/components/schemas/Relationship'
-            owner:
-              $ref: '#/components/schemas/Relationship'
-            components:
-              $ref: '#/components/schemas/Relationship'
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

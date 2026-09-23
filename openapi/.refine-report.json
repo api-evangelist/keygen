@@ -1,18 +1,7 @@
 {
   "provider": "keygen",
   "sources": [
-    "keygen-artifacts-api-openapi.yml",
-    "keygen-components-api-openapi.yml",
-    "keygen-entitlements-api-openapi.yml",
-    "keygen-licenses-api-openapi.yml",
-    "keygen-machines-api-openapi.yml",
-    "keygen-policies-api-openapi.yml",
-    "keygen-processes-api-openapi.yml",
-    "keygen-products-api-openapi.yml",
-    "keygen-releases-api-openapi.yml",
-    "keygen-tokens-api-openapi.yml",
-    "keygen-users-api-openapi.yml",
-    "keygen-webhooks-api-openapi.yml"
+    "_original/keygen-openapi.yml"
   ],
   "outputs": [
     "keygen-artifacts-api-openapi.yml",
@@ -31,6 +20,23 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "keygen-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "keygen-artifacts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keygen-components-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keygen-entitlements-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keygen-licenses-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keygen-machines-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keygen-policies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keygen-processes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keygen-products-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keygen-releases-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keygen-tokens-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keygen-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "keygen-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

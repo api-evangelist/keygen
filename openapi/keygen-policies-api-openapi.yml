@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Keygen Artifacts Policies API
-  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  title: Keygen Policies API
+  description: Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API.
   termsOfService: https://keygen.sh/terms/
   contact:
     name: Keygen Support
@@ -92,16 +92,59 @@ paths:
         '204':
           description: Policy deleted.
 components:
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
   schemas:
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    PolicyDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PolicyResource'
+    PolicyCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
     PolicyResource:
       type: object
       properties:
@@ -116,17 +159,21 @@ components:
             name:
               type: string
             duration:
-              type: integer
-              nullable: true
+              type:
+              - integer
+              - 'null'
             maxMachines:
-              type: integer
-              nullable: true
+              type:
+              - integer
+              - 'null'
             maxCores:
-              type: integer
-              nullable: true
+              type:
+              - integer
+              - 'null'
             maxUses:
-              type: integer
-              nullable: true
+              type:
+              - integer
+              - 'null'
             floating:
               type: boolean
             strict:
@@ -138,13 +185,14 @@ components:
             requireCheckIn:
               type: boolean
             checkInInterval:
-              type: string
+              type:
+              - string
+              - 'null'
               enum:
               - day
               - week
               - month
               - year
-              nullable: true
             expirationStrategy:
               type: string
               enum:
@@ -168,8 +216,9 @@ components:
               - ALLOW_1_5X_OVERAGE
               - ALLOW_2X_OVERAGE
             scheme:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
             metadata:
               type: object
               additionalProperties: true
@@ -180,58 +229,15 @@ components:
               $ref: '#/components/schemas/Relationship'
             product:
               $ref: '#/components/schemas/Relationship'
-    PolicyDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/PolicyResource'
-    Relationship:
-      type: object
-      properties:
-        data:
-          oneOf:
-          - $ref: '#/components/schemas/ResourceIdentifier'
-          - type: array
-            items:
-              $ref: '#/components/schemas/ResourceIdentifier'
-          - type: 'null'
-        links:
-          type: object
-          properties:
-            related:
-              type: string
-    PolicyCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
-    ResourceIdentifier:
-      type: object
-      properties:
-        type:
-          type: string
-        id:
-          type: string
-      required:
-      - type
-      - id
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Keygen Artifacts Tokens API
-  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  title: Keygen Tokens API
+  description: Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API.
   termsOfService: https://keygen.sh/terms/
   contact:
     name: Keygen Support
@@ -102,66 +102,7 @@ paths:
         '204':
           description: Token revoked.
 components:
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
-    PageNumber:
-      name: page[number]
-      in: query
-      required: false
-      description: The page of resources to return.
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-    PageSize:
-      name: page[size]
-      in: query
-      required: false
-      description: Number of resources per page (1-100).
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
   schemas:
-    Error:
-      type: object
-      properties:
-        title:
-          type: string
-        detail:
-          type: string
-        code:
-          type: string
-        source:
-          type: object
-          properties:
-            pointer:
-              type: string
-            parameter:
-              type: string
-    Relationship:
-      type: object
-      properties:
-        data:
-          oneOf:
-          - $ref: '#/components/schemas/ResourceIdentifier'
-          - type: array
-            items:
-              $ref: '#/components/schemas/ResourceIdentifier'
-          - type: 'null'
-        links:
-          type: object
-          properties:
-            related:
-              type: string
     TokenResource:
       type: object
       properties:
@@ -186,12 +127,14 @@ components:
               type: string
               description: The raw token value; only returned on generation/regeneration.
             name:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
             expiry:
-              type: string
+              type:
+              - string
+              - 'null'
               format: date-time
-              nullable: true
             created:
               type: string
               format: date-time
@@ -203,21 +146,51 @@ components:
           properties:
             bearer:
               $ref: '#/components/schemas/Relationship'
-    ResourceIdentifier:
+    Relationship:
       type: object
       properties:
-        type:
-          type: string
-        id:
-          type: string
-      required:
-      - type
-      - id
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
     TokenDocument:
       type: object
       properties:
         data:
           $ref: '#/components/schemas/TokenResource'
+    ErrorDocument:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      required:
+      - errors
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
+        code:
+          type: string
+        source:
+          type: object
+          properties:
+            pointer:
+              type: string
+            parameter:
+              type: string
     PageLinks:
       type: object
       properties:
@@ -231,6 +204,16 @@ components:
           type: string
         last:
           type: string
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
     TokenCollectionDocument:
       type: object
       properties:
@@ -240,28 +223,47 @@ components:
             $ref: '#/components/schemas/TokenResource'
         links:
           $ref: '#/components/schemas/PageLinks'
-    ErrorDocument:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      required:
-      - errors
   responses:
-    Unauthorized:
-      description: Authentication failed.
-      content:
-        application/vnd.api+json:
-          schema:
-            $ref: '#/components/schemas/ErrorDocument'
     NotFound:
       description: Resource not found.
       content:
         application/vnd.api+json:
           schema:
             $ref: '#/components/schemas/ErrorDocument'
+    Unauthorized:
+      description: Authentication failed.
+      content:
+        application/vnd.api+json:
+          schema:
+            $ref: '#/components/schemas/ErrorDocument'
+  parameters:
+    PageSize:
+      name: page[size]
+      in: query
+      required: false
+      description: Number of resources per page (1-100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    PageNumber:
+      name: page[number]
+      in: query
+      required: false
+      description: The page of resources to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

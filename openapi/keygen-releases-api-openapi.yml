@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Keygen Artifacts Releases API
-  description: 'Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API. Keygen follows the JSON:API specification (https://jsonapi.org): request and response bodies use the media type `application/vnd.api+json` and wrap resources in a top-level `data` object with `type`, `id`, `attributes`, and `relationships`. All endpoints are scoped to an account under `/v1/accounts/{account}`, where `{account}` is the account''s UUID or slug. Authentication is a Bearer token (admin, environment, product, user, or license token) or, for license validation, a license key. This document is a faithful subset intended for discovery; consult keygen.sh/docs/api for the full, authoritative reference.'
+  title: Keygen Releases API
+  description: Representative OpenAPI description of the Keygen software licensing, entitlements, and distribution API.
   termsOfService: https://keygen.sh/terms/
   contact:
     name: Keygen Support
@@ -110,16 +110,27 @@ paths:
         '204':
           description: No upgrade available.
 components:
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
   schemas:
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    ReleaseDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ReleaseResource'
     ReleaseResource:
       type: object
       properties:
@@ -132,8 +143,9 @@ components:
           type: object
           properties:
             name:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
             version:
               type: string
               description: Semver version string.
@@ -152,8 +164,9 @@ components:
               - PUBLISHED
               - YANKED
             tag:
-              type: string
-              nullable: true
+              type:
+              - string
+              - 'null'
             metadata:
               type: object
               additionalProperties: true
@@ -164,31 +177,6 @@ components:
               $ref: '#/components/schemas/Relationship'
             artifacts:
               $ref: '#/components/schemas/Relationship'
-    Relationship:
-      type: object
-      properties:
-        data:
-          oneOf:
-          - $ref: '#/components/schemas/ResourceIdentifier'
-          - type: array
-            items:
-              $ref: '#/components/schemas/ResourceIdentifier'
-          - type: 'null'
-        links:
-          type: object
-          properties:
-            related:
-              type: string
-    ResourceIdentifier:
-      type: object
-      properties:
-        type:
-          type: string
-        id:
-          type: string
-      required:
-      - type
-      - id
     PageLinks:
       type: object
       properties:
@@ -211,11 +199,25 @@ components:
             $ref: '#/components/schemas/ReleaseResource'
         links:
           $ref: '#/components/schemas/PageLinks'
-    ReleaseDocument:
+    ResourceIdentifier:
       type: object
       properties:
-        data:
-          $ref: '#/components/schemas/ReleaseResource'
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http
