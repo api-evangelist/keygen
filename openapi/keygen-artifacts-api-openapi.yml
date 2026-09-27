@@ -84,7 +84,29 @@ paths:
         '204':
           description: Artifact yanked.
 components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
   schemas:
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
     Relationship:
       type: object
       properties:
@@ -100,11 +122,6 @@ components:
           properties:
             related:
               type: string
-    ArtifactDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ArtifactResource'
     ArtifactResource:
       type: object
       properties:
@@ -159,28 +176,6 @@ components:
           properties:
             release:
               $ref: '#/components/schemas/Relationship'
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
-    ArtifactCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ArtifactResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
     ResourceIdentifier:
       type: object
       properties:
@@ -191,15 +186,20 @@ components:
       required:
       - type
       - id
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
+    ArtifactDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ArtifactResource'
+    ArtifactCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ArtifactResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
   securitySchemes:
     bearerAuth:
       type: http

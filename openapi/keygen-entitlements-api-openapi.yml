@@ -92,28 +92,16 @@ paths:
         '204':
           description: Entitlement deleted.
 components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
   schemas:
-    EntitlementResource:
-      type: object
-      properties:
-        type:
-          type: string
-          example: entitlements
-        id:
-          type: string
-        attributes:
-          type: object
-          properties:
-            name:
-              type:
-              - string
-              - 'null'
-            code:
-              type: string
-              description: Unique, immutable entitlement code (e.g. FEATURE_X).
-            metadata:
-              type: object
-              additionalProperties: true
     EntitlementCollectionDocument:
       type: object
       properties:
@@ -141,15 +129,27 @@ components:
       properties:
         data:
           $ref: '#/components/schemas/EntitlementResource'
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
+    EntitlementResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: entitlements
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            name:
+              type:
+              - string
+              - 'null'
+            code:
+              type: string
+              description: Unique, immutable entitlement code (e.g. FEATURE_X).
+            metadata:
+              type: object
+              additionalProperties: true
   securitySchemes:
     bearerAuth:
       type: http

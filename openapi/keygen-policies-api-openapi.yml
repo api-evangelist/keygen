@@ -92,36 +92,16 @@ paths:
         '204':
           description: Policy deleted.
 components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
   schemas:
-    Relationship:
-      type: object
-      properties:
-        data:
-          oneOf:
-          - $ref: '#/components/schemas/ResourceIdentifier'
-          - type: array
-            items:
-              $ref: '#/components/schemas/ResourceIdentifier'
-          - type: 'null'
-        links:
-          type: object
-          properties:
-            related:
-              type: string
-    PolicyDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/PolicyResource'
-    PolicyCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
     PageLinks:
       type: object
       properties:
@@ -135,16 +115,6 @@ components:
           type: string
         last:
           type: string
-    ResourceIdentifier:
-      type: object
-      properties:
-        type:
-          type: string
-        id:
-          type: string
-      required:
-      - type
-      - id
     PolicyResource:
       type: object
       properties:
@@ -229,15 +199,45 @@ components:
               $ref: '#/components/schemas/Relationship'
             product:
               $ref: '#/components/schemas/Relationship'
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
+    PolicyDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PolicyResource'
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+    PolicyCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
   securitySchemes:
     bearerAuth:
       type: http

@@ -102,7 +102,56 @@ paths:
         '204':
           description: Token revoked.
 components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
+    PageNumber:
+      name: page[number]
+      in: query
+      required: false
+      description: The page of resources to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    PageSize:
+      name: page[size]
+      in: query
+      required: false
+      description: Number of resources per page (1-100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
   schemas:
+    TokenDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/TokenResource'
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
+        code:
+          type: string
+        source:
+          type: object
+          properties:
+            pointer:
+              type: string
+            parameter:
+              type: string
     TokenResource:
       type: object
       properties:
@@ -146,6 +195,19 @@ components:
           properties:
             bearer:
               $ref: '#/components/schemas/Relationship'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
     Relationship:
       type: object
       properties:
@@ -161,49 +223,15 @@ components:
           properties:
             related:
               type: string
-    TokenDocument:
+    TokenCollectionDocument:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/TokenResource'
-    ErrorDocument:
-      type: object
-      properties:
-        errors:
           type: array
           items:
-            $ref: '#/components/schemas/Error'
-      required:
-      - errors
-    Error:
-      type: object
-      properties:
-        title:
-          type: string
-        detail:
-          type: string
-        code:
-          type: string
-        source:
-          type: object
-          properties:
-            pointer:
-              type: string
-            parameter:
-              type: string
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
+            $ref: '#/components/schemas/TokenResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
     ResourceIdentifier:
       type: object
       properties:
@@ -214,15 +242,15 @@ components:
       required:
       - type
       - id
-    TokenCollectionDocument:
+    ErrorDocument:
       type: object
       properties:
-        data:
+        errors:
           type: array
           items:
-            $ref: '#/components/schemas/TokenResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
+            $ref: '#/components/schemas/Error'
+      required:
+      - errors
   responses:
     NotFound:
       description: Resource not found.
@@ -236,34 +264,6 @@ components:
         application/vnd.api+json:
           schema:
             $ref: '#/components/schemas/ErrorDocument'
-  parameters:
-    PageSize:
-      name: page[size]
-      in: query
-      required: false
-      description: Number of resources per page (1-100).
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
-    PageNumber:
-      name: page[number]
-      in: query
-      required: false
-      description: The page of resources to return.
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

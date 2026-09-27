@@ -86,7 +86,43 @@ paths:
         '204':
           description: Product deleted.
 components:
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
   schemas:
+    ProductCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    ProductDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProductResource'
     ProductResource:
       type: object
       properties:
@@ -121,42 +157,6 @@ components:
             metadata:
               type: object
               additionalProperties: true
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
-    ProductCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProductResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
-    ProductDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ProductResource'
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
   securitySchemes:
     bearerAuth:
       type: http
