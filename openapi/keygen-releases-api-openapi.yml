@@ -111,33 +111,6 @@ paths:
           description: No upgrade available.
 components:
   schemas:
-    ReleaseDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ReleaseResource'
-    ReleaseCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReleaseResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
     Relationship:
       type: object
       properties:
@@ -153,6 +126,15 @@ components:
           properties:
             related:
               type: string
+    ReleaseCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
     ReleaseResource:
       type: object
       properties:
@@ -199,6 +181,11 @@ components:
               $ref: '#/components/schemas/Relationship'
             artifacts:
               $ref: '#/components/schemas/Relationship'
+    ReleaseDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ReleaseResource'
     ResourceIdentifier:
       type: object
       properties:
@@ -209,6 +196,19 @@ components:
       required:
       - type
       - id
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
   parameters:
     Id:
       name: id

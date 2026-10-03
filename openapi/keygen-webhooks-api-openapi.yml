@@ -121,6 +121,53 @@ paths:
                 $ref: '#/components/schemas/WebhookEventDocument'
 components:
   schemas:
+    WebhookEventCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookEventResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    WebhookEndpointResource:
+      type: object
+      properties:
+        type:
+          type: string
+          example: webhook-endpoints
+        id:
+          type: string
+        attributes:
+          type: object
+          properties:
+            url:
+              type: string
+              format: uri
+            subscriptions:
+              type: array
+              items:
+                type: string
+              description: Event types, e.g. license.created, machine.deleted, or "*".
+            signatureAlgorithm:
+              type: string
+              enum:
+              - ed25519
+              - rsa-pss-sha256
+              - rsa-sha256
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
     WebhookEventResource:
       type: object
       properties:
@@ -151,24 +198,6 @@ components:
             created:
               type: string
               format: date-time
-    WebhookEndpointDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/WebhookEndpointResource'
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
     WebhookEndpointCollectionDocument:
       type: object
       properties:
@@ -178,45 +207,16 @@ components:
             $ref: '#/components/schemas/WebhookEndpointResource'
         links:
           $ref: '#/components/schemas/PageLinks'
-    WebhookEndpointResource:
-      type: object
-      properties:
-        type:
-          type: string
-          example: webhook-endpoints
-        id:
-          type: string
-        attributes:
-          type: object
-          properties:
-            url:
-              type: string
-              format: uri
-            subscriptions:
-              type: array
-              items:
-                type: string
-              description: Event types, e.g. license.created, machine.deleted, or "*".
-            signatureAlgorithm:
-              type: string
-              enum:
-              - ed25519
-              - rsa-pss-sha256
-              - rsa-sha256
-    WebhookEventCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/WebhookEventResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
     WebhookEventDocument:
       type: object
       properties:
         data:
           $ref: '#/components/schemas/WebhookEventResource'
+    WebhookEndpointDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/WebhookEndpointResource'
   parameters:
     Id:
       name: id

@@ -93,16 +93,12 @@ paths:
         '204':
           description: User deleted.
 components:
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
   schemas:
+    UserDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserResource'
     UserResource:
       type: object
       properties:
@@ -165,11 +161,15 @@ components:
           type: string
         last:
           type: string
-    UserDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/UserResource'
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

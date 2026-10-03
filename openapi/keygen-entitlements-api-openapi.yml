@@ -92,15 +92,6 @@ paths:
         '204':
           description: Entitlement deleted.
 components:
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
   schemas:
     EntitlementCollectionDocument:
       type: object
@@ -111,24 +102,6 @@ components:
             $ref: '#/components/schemas/EntitlementResource'
         links:
           $ref: '#/components/schemas/PageLinks'
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
-    EntitlementDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/EntitlementResource'
     EntitlementResource:
       type: object
       properties:
@@ -150,6 +123,33 @@ components:
             metadata:
               type: object
               additionalProperties: true
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    EntitlementDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EntitlementResource'
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http

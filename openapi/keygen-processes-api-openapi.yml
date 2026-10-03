@@ -73,33 +73,6 @@ paths:
                 $ref: '#/components/schemas/ProcessDocument'
 components:
   schemas:
-    ProcessCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProcessResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
-    ProcessDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ProcessResource'
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
     Relationship:
       type: object
       properties:
@@ -115,6 +88,20 @@ components:
           properties:
             related:
               type: string
+    ProcessCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProcessResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    ProcessDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ProcessResource'
     ResourceIdentifier:
       type: object
       properties:
@@ -125,6 +112,19 @@ components:
       required:
       - type
       - id
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
     ProcessResource:
       type: object
       properties:

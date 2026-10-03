@@ -191,57 +191,31 @@ paths:
                 $ref: '#/components/schemas/LicenseDocument'
 components:
   schemas:
-    LicenseCollectionDocument:
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+    Relationship:
       type: object
       properties:
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/LicenseResource'
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
         links:
-          $ref: '#/components/schemas/PageLinks'
-        meta:
           type: object
           properties:
-            count:
-              type: integer
-    Error:
-      type: object
-      properties:
-        title:
-          type: string
-        detail:
-          type: string
-        code:
-          type: string
-        source:
-          type: object
-          properties:
-            pointer:
+            related:
               type: string
-            parameter:
-              type: string
-    ValidateKeyDocument:
-      type: object
-      properties:
-        meta:
-          type: object
-          properties:
-            key:
-              type: string
-            scope:
-              type: object
-              properties:
-                fingerprint:
-                  type: string
-                product:
-                  type: string
-                entitlements:
-                  type: array
-                  items:
-                    type: string
-          required:
-          - key
     ValidationScopeDocument:
       type: object
       properties:
@@ -257,6 +231,20 @@ components:
                   type: array
                   items:
                     type: string
+    LicenseCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/LicenseResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+        meta:
+          type: object
+          properties:
+            count:
+              type: integer
     LicenseFileDocument:
       type: object
       properties:
@@ -283,6 +271,76 @@ components:
                   - string
                   - 'null'
                   format: date-time
+    LicenseDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LicenseResource'
+    ValidateKeyDocument:
+      type: object
+      properties:
+        meta:
+          type: object
+          properties:
+            key:
+              type: string
+            scope:
+              type: object
+              properties:
+                fingerprint:
+                  type: string
+                product:
+                  type: string
+                entitlements:
+                  type: array
+                  items:
+                    type: string
+          required:
+          - key
+    ValidationResultDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/LicenseResource'
+        meta:
+          type: object
+          properties:
+            ts:
+              type: string
+              format: date-time
+            valid:
+              type: boolean
+            detail:
+              type: string
+            code:
+              type: string
+              example: VALID
+              description: Validation code, e.g. VALID, NOT_FOUND, SUSPENDED, EXPIRED, OVERDUE, NO_MACHINE, NO_MACHINES, TOO_MANY_MACHINES, FINGERPRINT_SCOPE_MISMATCH.
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
+        code:
+          type: string
+        source:
+          type: object
+          properties:
+            pointer:
+              type: string
+            parameter:
+              type: string
+    ErrorDocument:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      required:
+      - errors
     PageLinks:
       type: object
       properties:
@@ -365,73 +423,16 @@ components:
               $ref: '#/components/schemas/Relationship'
             entitlements:
               $ref: '#/components/schemas/Relationship'
-    LicenseDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/LicenseResource'
-    Relationship:
-      type: object
-      properties:
-        data:
-          oneOf:
-          - $ref: '#/components/schemas/ResourceIdentifier'
-          - type: array
-            items:
-              $ref: '#/components/schemas/ResourceIdentifier'
-          - type: 'null'
-        links:
-          type: object
-          properties:
-            related:
-              type: string
-    ValidationResultDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/LicenseResource'
-        meta:
-          type: object
-          properties:
-            ts:
-              type: string
-              format: date-time
-            valid:
-              type: boolean
-            detail:
-              type: string
-            code:
-              type: string
-              example: VALID
-              description: Validation code, e.g. VALID, NOT_FOUND, SUSPENDED, EXPIRED, OVERDUE, NO_MACHINE, NO_MACHINES, TOO_MANY_MACHINES, FINGERPRINT_SCOPE_MISMATCH.
-    ResourceIdentifier:
-      type: object
-      properties:
-        type:
-          type: string
-        id:
-          type: string
-      required:
-      - type
-      - id
-    ErrorDocument:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      required:
-      - errors
   parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
+    PageNumber:
+      name: page[number]
+      in: query
+      required: false
+      description: The page of resources to return.
       schema:
-        type: string
-        format: uuid
+        type: integer
+        minimum: 1
+        default: 1
     PageSize:
       name: page[size]
       in: query
@@ -442,15 +443,14 @@ components:
         minimum: 1
         maximum: 100
         default: 10
-    PageNumber:
-      name: page[number]
-      in: query
-      required: false
-      description: The page of resources to return.
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
       schema:
-        type: integer
-        minimum: 1
-        default: 1
+        type: string
+        format: uuid
   responses:
     NotFound:
       description: Resource not found.

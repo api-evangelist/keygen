@@ -92,29 +92,36 @@ paths:
         '204':
           description: Policy deleted.
 components:
-  parameters:
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
   schemas:
-    PageLinks:
+    Relationship:
       type: object
       properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    PolicyDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PolicyResource'
+    PolicyCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
     PolicyResource:
       type: object
       properties:
@@ -199,26 +206,6 @@ components:
               $ref: '#/components/schemas/Relationship'
             product:
               $ref: '#/components/schemas/Relationship'
-    PolicyDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/PolicyResource'
-    Relationship:
-      type: object
-      properties:
-        data:
-          oneOf:
-          - $ref: '#/components/schemas/ResourceIdentifier'
-          - type: array
-            items:
-              $ref: '#/components/schemas/ResourceIdentifier'
-          - type: 'null'
-        links:
-          type: object
-          properties:
-            related:
-              type: string
     ResourceIdentifier:
       type: object
       properties:
@@ -229,15 +216,28 @@ components:
       required:
       - type
       - id
-    PolicyCollectionDocument:
+    PageLinks:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/PolicyResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+  parameters:
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
   securitySchemes:
     bearerAuth:
       type: http
