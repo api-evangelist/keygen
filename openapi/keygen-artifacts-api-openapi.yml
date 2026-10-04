@@ -154,11 +154,6 @@ components:
           properties:
             release:
               $ref: '#/components/schemas/Relationship'
-    ArtifactDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ArtifactResource'
     ArtifactCollectionDocument:
       type: object
       properties:
@@ -168,16 +163,11 @@ components:
             $ref: '#/components/schemas/ArtifactResource'
         links:
           $ref: '#/components/schemas/PageLinks'
-    ResourceIdentifier:
+    ArtifactDocument:
       type: object
       properties:
-        type:
-          type: string
-        id:
-          type: string
-      required:
-      - type
-      - id
+        data:
+          $ref: '#/components/schemas/ArtifactResource'
     PageLinks:
       type: object
       properties:
@@ -191,6 +181,16 @@ components:
           type: string
         last:
           type: string
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
   parameters:
     Id:
       name: id

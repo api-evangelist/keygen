@@ -94,11 +94,6 @@ paths:
           description: User deleted.
 components:
   schemas:
-    UserDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/UserResource'
     UserResource:
       type: object
       properties:
@@ -161,6 +156,11 @@ components:
           type: string
         last:
           type: string
+    UserDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/UserResource'
   parameters:
     Id:
       name: id

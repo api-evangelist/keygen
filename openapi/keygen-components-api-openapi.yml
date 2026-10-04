@@ -73,6 +73,11 @@ paths:
                 $ref: '#/components/schemas/ComponentCollectionDocument'
 components:
   schemas:
+    ComponentDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ComponentResource'
     Relationship:
       type: object
       properties:
@@ -97,21 +102,6 @@ components:
             $ref: '#/components/schemas/ComponentResource'
         links:
           $ref: '#/components/schemas/PageLinks'
-    ComponentDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ComponentResource'
-    ResourceIdentifier:
-      type: object
-      properties:
-        type:
-          type: string
-        id:
-          type: string
-      required:
-      - type
-      - id
     PageLinks:
       type: object
       properties:
@@ -150,6 +140,16 @@ components:
               $ref: '#/components/schemas/Relationship'
             license:
               $ref: '#/components/schemas/Relationship'
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
   parameters:
     Id:
       name: id

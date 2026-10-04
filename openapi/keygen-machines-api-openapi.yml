@@ -143,6 +143,19 @@ components:
             $ref: '#/components/schemas/MachineResource'
         links:
           $ref: '#/components/schemas/PageLinks'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
     MachineDocument:
       type: object
       properties:
@@ -158,19 +171,6 @@ components:
       required:
       - type
       - id
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
     MachineResource:
       type: object
       properties:

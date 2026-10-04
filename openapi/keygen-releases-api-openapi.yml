@@ -181,21 +181,6 @@ components:
               $ref: '#/components/schemas/Relationship'
             artifacts:
               $ref: '#/components/schemas/Relationship'
-    ReleaseDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ReleaseResource'
-    ResourceIdentifier:
-      type: object
-      properties:
-        type:
-          type: string
-        id:
-          type: string
-      required:
-      - type
-      - id
     PageLinks:
       type: object
       properties:
@@ -209,6 +194,21 @@ components:
           type: string
         last:
           type: string
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+    ReleaseDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ReleaseResource'
   parameters:
     Id:
       name: id

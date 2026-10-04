@@ -93,15 +93,6 @@ paths:
           description: Entitlement deleted.
 components:
   schemas:
-    EntitlementCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/EntitlementResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
     EntitlementResource:
       type: object
       properties:
@@ -123,6 +114,15 @@ components:
             metadata:
               type: object
               additionalProperties: true
+    EntitlementCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitlementResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
     PageLinks:
       type: object
       properties:

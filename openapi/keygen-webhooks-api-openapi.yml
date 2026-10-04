@@ -130,6 +130,20 @@ components:
             $ref: '#/components/schemas/WebhookEventResource'
         links:
           $ref: '#/components/schemas/PageLinks'
+    WebhookEventDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/WebhookEventResource'
+    WebhookEndpointCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebhookEndpointResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
     WebhookEndpointResource:
       type: object
       properties:
@@ -155,19 +169,6 @@ components:
               - ed25519
               - rsa-pss-sha256
               - rsa-sha256
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
     WebhookEventResource:
       type: object
       properties:
@@ -198,20 +199,19 @@ components:
             created:
               type: string
               format: date-time
-    WebhookEndpointCollectionDocument:
+    PageLinks:
       type: object
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/WebhookEndpointResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
-    WebhookEventDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/WebhookEventResource'
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
     WebhookEndpointDocument:
       type: object
       properties:
