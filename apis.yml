@@ -509,6 +509,9 @@ apis:
   - type: Documentation
     url: https://keygen.sh/docs/api/processes/
 common:
+- type: CapabilityMap
+  url: capabilities/keygen-capability-edges.yml
+  name: Keygen Business Capability Map
 - type: AgenticAccess
   url: agentic-access/keygen-agentic-access.yml
 - type: TrustCenter
