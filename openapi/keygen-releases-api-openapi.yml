@@ -111,30 +111,24 @@ paths:
           description: No upgrade available.
 components:
   schemas:
-    Relationship:
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    ReleaseDocument:
       type: object
       properties:
         data:
-          oneOf:
-          - $ref: '#/components/schemas/ResourceIdentifier'
-          - type: array
-            items:
-              $ref: '#/components/schemas/ResourceIdentifier'
-          - type: 'null'
-        links:
-          type: object
-          properties:
-            related:
-              type: string
-    ReleaseCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/ReleaseResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
+          $ref: '#/components/schemas/ReleaseResource'
     ReleaseResource:
       type: object
       properties:
@@ -181,19 +175,21 @@ components:
               $ref: '#/components/schemas/Relationship'
             artifacts:
               $ref: '#/components/schemas/Relationship'
-    PageLinks:
+    Relationship:
       type: object
       properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
     ResourceIdentifier:
       type: object
       properties:
@@ -204,11 +200,15 @@ components:
       required:
       - type
       - id
-    ReleaseDocument:
+    ReleaseCollectionDocument:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/ReleaseResource'
+          type: array
+          items:
+            $ref: '#/components/schemas/ReleaseResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
   parameters:
     Id:
       name: id

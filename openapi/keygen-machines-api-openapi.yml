@@ -119,30 +119,6 @@ paths:
                 $ref: '#/components/schemas/MachineDocument'
 components:
   schemas:
-    Relationship:
-      type: object
-      properties:
-        data:
-          oneOf:
-          - $ref: '#/components/schemas/ResourceIdentifier'
-          - type: array
-            items:
-              $ref: '#/components/schemas/ResourceIdentifier'
-          - type: 'null'
-        links:
-          type: object
-          properties:
-            related:
-              type: string
-    MachineCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/MachineResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
     PageLinks:
       type: object
       properties:
@@ -156,21 +132,15 @@ components:
           type: string
         last:
           type: string
-    MachineDocument:
+    MachineCollectionDocument:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/MachineResource'
-    ResourceIdentifier:
-      type: object
-      properties:
-        type:
-          type: string
-        id:
-          type: string
-      required:
-      - type
-      - id
+          type: array
+          items:
+            $ref: '#/components/schemas/MachineResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
     MachineResource:
       type: object
       properties:
@@ -233,24 +203,37 @@ components:
               $ref: '#/components/schemas/Relationship'
             components:
               $ref: '#/components/schemas/Relationship'
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+    MachineDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/MachineResource'
   parameters:
-    PageNumber:
-      name: page[number]
-      in: query
-      required: false
-      description: The page of resources to return.
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-    Id:
-      name: id
-      in: path
-      required: true
-      description: The identifier (UUID) of the resource.
-      schema:
-        type: string
-        format: uuid
     PageSize:
       name: page[size]
       in: query
@@ -261,6 +244,23 @@ components:
         minimum: 1
         maximum: 100
         default: 10
+    Id:
+      name: id
+      in: path
+      required: true
+      description: The identifier (UUID) of the resource.
+      schema:
+        type: string
+        format: uuid
+    PageNumber:
+      name: page[number]
+      in: query
+      required: false
+      description: The page of resources to return.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
   securitySchemes:
     bearerAuth:
       type: http

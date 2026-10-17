@@ -103,6 +103,83 @@ paths:
           description: Token revoked.
 components:
   schemas:
+    TokenDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/TokenResource'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    ErrorDocument:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      required:
+      - errors
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
+    TokenCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/TokenResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
+    ResourceIdentifier:
+      type: object
+      properties:
+        type:
+          type: string
+        id:
+          type: string
+      required:
+      - type
+      - id
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
+        code:
+          type: string
+        source:
+          type: object
+          properties:
+            pointer:
+              type: string
+            parameter:
+              type: string
     TokenResource:
       type: object
       properties:
@@ -146,84 +223,17 @@ components:
           properties:
             bearer:
               $ref: '#/components/schemas/Relationship'
-    Error:
-      type: object
-      properties:
-        title:
-          type: string
-        detail:
-          type: string
-        code:
-          type: string
-        source:
-          type: object
-          properties:
-            pointer:
-              type: string
-            parameter:
-              type: string
-    Relationship:
-      type: object
-      properties:
-        data:
-          oneOf:
-          - $ref: '#/components/schemas/ResourceIdentifier'
-          - type: array
-            items:
-              $ref: '#/components/schemas/ResourceIdentifier'
-          - type: 'null'
-        links:
-          type: object
-          properties:
-            related:
-              type: string
-    ErrorDocument:
-      type: object
-      properties:
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error'
-      required:
-      - errors
-    TokenCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/TokenResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
-    TokenDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/TokenResource'
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
-    ResourceIdentifier:
-      type: object
-      properties:
-        type:
-          type: string
-        id:
-          type: string
-      required:
-      - type
-      - id
   parameters:
+    PageSize:
+      name: page[size]
+      in: query
+      required: false
+      description: Number of resources per page (1-100).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
     Id:
       name: id
       in: path
@@ -241,16 +251,6 @@ components:
         type: integer
         minimum: 1
         default: 1
-    PageSize:
-      name: page[size]
-      in: query
-      required: false
-      description: Number of resources per page (1-100).
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
   responses:
     Unauthorized:
       description: Authentication failed.

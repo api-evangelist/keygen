@@ -94,6 +94,19 @@ paths:
           description: User deleted.
 components:
   schemas:
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
     UserResource:
       type: object
       properties:
@@ -143,19 +156,6 @@ components:
             $ref: '#/components/schemas/UserResource'
         links:
           $ref: '#/components/schemas/PageLinks'
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
     UserDocument:
       type: object
       properties:

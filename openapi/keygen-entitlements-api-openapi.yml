@@ -93,6 +93,33 @@ paths:
           description: Entitlement deleted.
 components:
   schemas:
+    EntitlementDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/EntitlementResource'
+    PageLinks:
+      type: object
+      properties:
+        self:
+          type: string
+        first:
+          type: string
+        prev:
+          type: string
+        next:
+          type: string
+        last:
+          type: string
+    EntitlementCollectionDocument:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitlementResource'
+        links:
+          $ref: '#/components/schemas/PageLinks'
     EntitlementResource:
       type: object
       properties:
@@ -114,33 +141,6 @@ components:
             metadata:
               type: object
               additionalProperties: true
-    EntitlementCollectionDocument:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/EntitlementResource'
-        links:
-          $ref: '#/components/schemas/PageLinks'
-    PageLinks:
-      type: object
-      properties:
-        self:
-          type: string
-        first:
-          type: string
-        prev:
-          type: string
-        next:
-          type: string
-        last:
-          type: string
-    EntitlementDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/EntitlementResource'
   parameters:
     Id:
       name: id

@@ -93,21 +93,6 @@ paths:
           description: Policy deleted.
 components:
   schemas:
-    Relationship:
-      type: object
-      properties:
-        data:
-          oneOf:
-          - $ref: '#/components/schemas/ResourceIdentifier'
-          - type: array
-            items:
-              $ref: '#/components/schemas/ResourceIdentifier'
-          - type: 'null'
-        links:
-          type: object
-          properties:
-            related:
-              type: string
     PolicyCollectionDocument:
       type: object
       properties:
@@ -117,11 +102,6 @@ components:
             $ref: '#/components/schemas/PolicyResource'
         links:
           $ref: '#/components/schemas/PageLinks'
-    PolicyDocument:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/PolicyResource'
     PageLinks:
       type: object
       properties:
@@ -219,6 +199,26 @@ components:
               $ref: '#/components/schemas/Relationship'
             product:
               $ref: '#/components/schemas/Relationship'
+    PolicyDocument:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/PolicyResource'
+    Relationship:
+      type: object
+      properties:
+        data:
+          oneOf:
+          - $ref: '#/components/schemas/ResourceIdentifier'
+          - type: array
+            items:
+              $ref: '#/components/schemas/ResourceIdentifier'
+          - type: 'null'
+        links:
+          type: object
+          properties:
+            related:
+              type: string
     ResourceIdentifier:
       type: object
       properties:
