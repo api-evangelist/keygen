@@ -1,4 +1,4 @@
-# Keygen (keygen)
+# Keygen
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,276 +66,140 @@
 
 Keygen is a software licensing, entitlements, and distribution API for desktop, on-prem, IoT, and other installed applications. It issues license keys, activates and tracks machines, enforces policy-based entitlements, and distributes releases and artifacts for auto-updates. Keygen ships as the source-available, self-hostable Keygen CE / EE and as the managed Keygen Cloud, exposing a JSON:API interface under api.keygen.sh.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/keygen/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/keygen/refs/heads/main/apis.yml)
+**Areas:** Software Licensing · Entitlements · License Keys · Machine Activation · Distribution · Auto-Update
 
-## Tags
+## Keygen on APIs.io
 
-- Software Licensing
-- Entitlements
-- License Keys
-- Machine Activation
-- Distribution
-- Auto-Update
+Everything profiled for Keygen is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/keygen/](https://apis.io/providers/keygen/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (12)
 
-- **Created:** 2026-07-01
-- **Modified:** 2026-07-01
+- [Keygen Artifacts API](https://apis.io/apis/keygen/keygen-artifacts-api/) — Binary artifacts attached to releases.
+- [Keygen Components API](https://apis.io/apis/keygen/keygen-components-api/) — Hardware components of a machine fingerprint.
+- [Keygen Entitlements API](https://apis.io/apis/keygen/keygen-entitlements-api/) — Named feature flags attached to policies and licenses.
+- [Keygen Licenses API](https://apis.io/apis/keygen/keygen-licenses-api/) — Issue, validate, and manage license keys.
+- [Keygen Machines API](https://apis.io/apis/keygen/keygen-machines-api/) — Activate and manage node-locked machines.
+- [Keygen Policies API](https://apis.io/apis/keygen/keygen-policies-api/) — Licensing rules that govern licenses.
+- [Keygen Processes API](https://apis.io/apis/keygen/keygen-processes-api/) — Concurrent processes running on a machine.
+- [Keygen Products API](https://apis.io/apis/keygen/keygen-products-api/) — Applications being licensed and distributed.
+- [Keygen Releases API](https://apis.io/apis/keygen/keygen-releases-api/) — Distributable, semver-tagged releases.
+- [Keygen Tokens API](https://apis.io/apis/keygen/keygen-tokens-api/) — Authenticate and manage bearer tokens.
+- [Keygen Users API](https://apis.io/apis/keygen/keygen-users-api/) — End users and license owners.
+- [Keygen Webhooks API](https://apis.io/apis/keygen/keygen-webhooks-api/) — Webhook endpoints and events.
 
-## APIs
+### Published properties
 
-### Keygen Licenses API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Create, retrieve, update, delete, suspend, reinstate, and renew license keys; validate a license key by ID or key, and check licenses out or in for offline use. JSON:API over application/vnd.api+json.
+#### Agentic access (1)
 
-- **Human URL:** [https://keygen.sh/docs/api/licenses/](https://keygen.sh/docs/api/licenses/)
-- **Base URL:** `https://api.keygen.sh/v1/accounts/{account}`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Keygen Agentic Access](https://apis.io/agentic-access/keygen/keygen-agentic-access/)
 
-- Licenses
-- License Keys
-- Validation
+#### Collections (13)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://keygen.sh/docs/api/licenses/)
-- [API Reference](https://keygen.sh/docs/api/licenses/)
-- [OpenAPI](openapi/keygen-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/keygen.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/keygen.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Keygen API](https://apis.io/collections/keygen/open-keygen/)
+- [Keygen Artifacts API](https://apis.io/collections/keygen/open-keygen-artifacts-api/)
+- [Keygen Artifacts Components API](https://apis.io/collections/keygen/open-keygen-components-api/)
+- [Keygen Artifacts Entitlements API](https://apis.io/collections/keygen/open-keygen-entitlements-api/)
+- [Keygen Artifacts Licenses API](https://apis.io/collections/keygen/open-keygen-licenses-api/)
+- [Keygen Artifacts Machines API](https://apis.io/collections/keygen/open-keygen-machines-api/)
+- [Keygen Artifacts Policies API](https://apis.io/collections/keygen/open-keygen-policies-api/)
+- [Keygen Artifacts Processes API](https://apis.io/collections/keygen/open-keygen-processes-api/)
+- [Keygen Artifacts Products API](https://apis.io/collections/keygen/open-keygen-products-api/)
+- [Keygen Artifacts Releases API](https://apis.io/collections/keygen/open-keygen-releases-api/)
+- [Keygen Artifacts Tokens API](https://apis.io/collections/keygen/open-keygen-tokens-api/)
+- [Keygen Artifacts Users API](https://apis.io/collections/keygen/open-keygen-users-api/)
+- [Keygen Artifacts Webhooks API](https://apis.io/collections/keygen/open-keygen-webhooks-api/)
 
-### Keygen Machines / Activation API
+#### Security (4)
 
-Activate a machine against a license by hardware fingerprint, list and manage activated machines, send heartbeat pings to keep node-locked activations alive, and check machines out or in for offline activation.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://keygen.sh/docs/api/machines/](https://keygen.sh/docs/api/machines/)
-- **Base URL:** `https://api.keygen.sh/v1/accounts/{account}`
+- [Keygen Authentication](https://apis.io/security/keygen/keygen-authentication/)
+- [Keygen Domain Security](https://apis.io/security/keygen/keygen-domain-security/)
+- [Keygen Trust Center](https://apis.io/security/keygen/keygen-trust-center/)
+- [Keygen Vulnerability Disclosure](https://apis.io/security/keygen/keygen-vulnerability-disclosure/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Machines
-- Activation
-- Fingerprint
+Published plans, tiers and prices.
 
-#### Properties
+- [Keygen Plans Pricing](https://apis.io/plans/keygen/keygen-plans-pricing/)
 
-- [Documentation](https://keygen.sh/docs/api/machines/)
-- [OpenAPI](openapi/keygen-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/keygen.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/keygen.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Rate limits (1)
 
-### Keygen Policies API
+Published request limits.
 
-Define the licensing model - expiration, machine and core limits, floating vs node-locked, check-in cadence, encryption and cryptographic scheme, and overage strategy - that governs the licenses derived from a policy.
+- [Keygen Rate Limits](https://apis.io/rate-limits/keygen/keygen-rate-limits/)
 
-- **Human URL:** [https://keygen.sh/docs/api/policies/](https://keygen.sh/docs/api/policies/)
-- **Base URL:** `https://api.keygen.sh/v1/accounts/{account}`
+#### FinOps (1)
 
-#### Tags
+What the API costs to run, by operation.
 
-- Policies
-- Rules
-- Enforcement
+- [Keygen Finops](https://apis.io/finops/keygen/keygen-finops/)
 
-#### Properties
+## Where to find this API
 
-- [Documentation](https://keygen.sh/docs/api/policies/)
-- [OpenAPI](openapi/keygen-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/keygen.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/keygen.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-### Keygen Products API
-
-Manage the products (applications) an account licenses and distributes, including distribution strategy, platforms, and the product tokens used for server-side automation.
-
-- **Human URL:** [https://keygen.sh/docs/api/products/](https://keygen.sh/docs/api/products/)
-- **Base URL:** `https://api.keygen.sh/v1/accounts/{account}`
-
-#### Tags
-
-- Products
-- Applications
-
-#### Properties
-
-- [Documentation](https://keygen.sh/docs/api/products/)
-- [OpenAPI](openapi/keygen-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/keygen.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/keygen.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Keygen Users API
-
-Create and manage end users and license owners, assign roles, ban or unban users, and update passwords - the identities that own and validate licenses.
-
-- **Human URL:** [https://keygen.sh/docs/api/users/](https://keygen.sh/docs/api/users/)
-- **Base URL:** `https://api.keygen.sh/v1/accounts/{account}`
-
-#### Tags
-
-- Users
-- Accounts
-- Owners
-
-#### Properties
-
-- [Documentation](https://keygen.sh/docs/api/users/)
-- [OpenAPI](openapi/keygen-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/keygen.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/keygen.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Keygen Entitlements API
-
-Define named entitlements (feature flags) and attach or detach them from policies and licenses to gate product features and enforce fine-grained permissions per customer.
-
-- **Human URL:** [https://keygen.sh/docs/api/entitlements/](https://keygen.sh/docs/api/entitlements/)
-- **Base URL:** `https://api.keygen.sh/v1/accounts/{account}`
-
-#### Tags
-
-- Entitlements
-- Feature Flags
-- Permissions
-
-#### Properties
-
-- [Documentation](https://keygen.sh/docs/api/entitlements/)
-- [OpenAPI](openapi/keygen-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/keygen.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/keygen.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Keygen Releases / Distribution API
-
-Publish, list, and manage semver-tagged releases for software distribution and auto-update, resolving upgrades for an entitled license across channels (stable, beta, alpha, rc) and platforms.
-
-- **Human URL:** [https://keygen.sh/docs/api/releases/](https://keygen.sh/docs/api/releases/)
-- **Base URL:** `https://api.keygen.sh/v1/accounts/{account}`
-
-#### Tags
-
-- Releases
-- Distribution
-- Auto-Update
-
-#### Properties
-
-- [Documentation](https://keygen.sh/docs/api/releases/)
-- [OpenAPI](openapi/keygen-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/keygen.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/keygen.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Keygen Artifacts API
-
-Upload, download, and yank the binary artifacts attached to a release - installers, packages, and update files - with redirect-based downloads gated by license entitlement.
-
-- **Human URL:** [https://keygen.sh/docs/api/artifacts/](https://keygen.sh/docs/api/artifacts/)
-- **Base URL:** `https://api.keygen.sh/v1/accounts/{account}`
-
-#### Tags
-
-- Artifacts
-- Binaries
-- Downloads
-
-#### Properties
-
-- [Documentation](https://keygen.sh/docs/api/artifacts/)
-- [OpenAPI](openapi/keygen-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/keygen.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/keygen.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Keygen Tokens / Auth API
-
-Generate, list, retrieve, regenerate, and revoke bearer tokens - admin, environment, product, user, and license tokens - and authenticate via HTTP Basic or license-key auth to obtain scoped access.
-
-- **Human URL:** [https://keygen.sh/docs/api/tokens/](https://keygen.sh/docs/api/tokens/)
-- **Base URL:** `https://api.keygen.sh/v1/accounts/{account}`
-
-#### Tags
-
-- Tokens
-- Authentication
-- API Keys
-
-#### Properties
-
-- [Documentation](https://keygen.sh/docs/api/authentication/)
-- [API Reference](https://keygen.sh/docs/api/tokens/)
-- [OpenAPI](openapi/keygen-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/keygen.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/keygen.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Keygen Webhooks API
-
-Register webhook endpoints and consume signed webhook events for license, machine, user, release, and process lifecycle changes; retrieve and retry recorded webhook event deliveries.
-
-- **Human URL:** [https://keygen.sh/docs/api/webhooks/](https://keygen.sh/docs/api/webhooks/)
-- **Base URL:** `https://api.keygen.sh/v1/accounts/{account}`
-
-#### Tags
-
-- Webhooks
-- Events
-- Notifications
-
-#### Properties
-
-- [Documentation](https://keygen.sh/docs/api/webhooks/)
-- [OpenAPI](openapi/keygen-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/keygen.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/keygen.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Keygen Machine Components API
-
-Track individual hardware components (CPUs, drives, GPUs) that make up a machine fingerprint for stricter, component-level node-locking and anti-tamper enforcement.
-
-- **Human URL:** [https://keygen.sh/docs/api/components/](https://keygen.sh/docs/api/components/)
-- **Base URL:** `https://api.keygen.sh/v1/accounts/{account}`
-
-#### Tags
-
-- Components
-- Hardware
-- Fingerprint
-
-#### Properties
-
-- [Documentation](https://keygen.sh/docs/api/components/)
-- [OpenAPI](openapi/keygen-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/keygen.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/keygen.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-### Keygen Machine Processes API
-
-Spawn, heartbeat, and kill concurrent processes running on an activated machine to enforce per-process concurrency limits and meter floating-license usage.
-
-- **Human URL:** [https://keygen.sh/docs/api/processes/](https://keygen.sh/docs/api/processes/)
-- **Base URL:** `https://api.keygen.sh/v1/accounts/{account}`
-
-#### Tags
-
-- Processes
-- Concurrency
-- Metering
-
-#### Properties
-
-- [Documentation](https://keygen.sh/docs/api/processes/)
-- [OpenAPI](openapi/keygen-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/keygen.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/keygen.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/keygen-sh)
-- [LinkedIn](https://www.linkedin.com/company/keygen-sh)
 - [Website](https://keygen.sh/)
 - [Documentation](https://keygen.sh/docs/api/)
-- [Plans](plans/keygen-plans-pricing.yml)
-- [Rate Limits](rate-limits/keygen-rate-limits.yml)
-- [Fin Ops](finops/keygen-finops.yml)
+- [Blog](https://keygen.sh/blog/feed.xml)
+- [GitHub](https://github.com/keygen-sh)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 30.0** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 48.9 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 31.0 |
+| Access clarity | 15.8 |
+
+**Agent readiness 17.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 22.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/keygen/](https://apis.io/providers/keygen/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Keygen: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/keygen/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
